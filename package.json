@@ -7,9 +7,18 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.6.1",
+    "@supabase/auth-helpers-react": "^0.3.1",
+    "@supabase/auth-ui-react": "^0.4.2",
+    "@supabase/auth-ui-shared": "^0.1.6",
+    "@supabase/supabase-js": "^2.21.0",
+    "@supabase/ui": "^0.36.5",
+    "autoprefixer": "^10.4.14",
     "next": "latest",
+    "postcss": "^8.4.23",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.2"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
