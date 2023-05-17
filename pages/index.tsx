@@ -60,30 +60,38 @@ const IndexPage: React.FC = () => {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Quiz Rooms</h1>
+      <h1 className="mb-4 text-3xl font-bold">Quiz Rooms</h1>
       <input
-        className="border border-gray-300 rounded p-2 mb-4"
+        className="p-2 mb-4 border border-gray-300 rounded"
         type="text"
         placeholder="Enter room name"
         value={roomName}
         onChange={(e) => setRoomName(e.target.value)}
       />
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="px-4 py-2 text-white bg-blue-500 rounded"
         onClick={createRoom}
       >
         Create Room
       </button>
-      <div className="mt-8">
+      <div className="mt-8 space-y-3">
         {rooms.map((room) => (
-          <div key={room.id} className="border border-gray-300 p-4 mb-4">
-            <h2 className="text-xl font-bold">{room.name}</h2>
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-              onClick={() => handleJoinRoom(room.id)}
-            >
-              Join Room
-            </button>
+          <div className="flex flex-col items-center p-4 bg-gray-100 rounded-md shadow-lg">
+            <h2 className="mb-2 text-2xl font-bold">{room.subject}</h2>
+            <p className="mb-4 text-gray-500">{room.context}</p>
+            <div className="flex items-center justify-between w-full">
+              <button
+                onClick={() => handleJoinRoom(room.id)}
+                className="px-4 py-2 text-white bg-blue-500 rounded-md"
+              >
+                Join Room
+              </button>
+              <div className="flex items-center">
+                {/* <span className="mr-2">{users.length}</span> */}
+                <span className="mr-2">3</span>
+                {/* <UserIcon className="w-6 h-6 text-gray-500" /> */}
+              </div>
+            </div>
           </div>
         ))}
       </div>

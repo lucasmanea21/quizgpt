@@ -13,7 +13,11 @@ const ShareRoomButton = ({ roomId }) => {
     }
   };
 
-  return <button onClick={handleShare}>Share Room</button>;
+  return (
+    <button onClick={handleShare} className="mb-4">
+      Share Room
+    </button>
+  );
 };
 
 export default ShareRoomButton;

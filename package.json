@@ -14,6 +14,8 @@
     "@supabase/supabase-js": "^2.21.0",
     "@supabase/ui": "^0.36.5",
     "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
+    "jotai": "^2.1.0",
     "next": "latest",
     "postcss": "^8.4.23",
     "react": "^18.2.0",

@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthComponent } from "../components/AuthComponent";
+import { AuthComponent } from "../components/Profile/AuthComponent";
 
 const AuthPage = () => {
   return (
