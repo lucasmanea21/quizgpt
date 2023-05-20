@@ -27,8 +27,6 @@ const IndexPage: React.FC = () => {
     }
   };
 
-  console.log("supabase.auth", supabase.auth);
-
   const createRoom = async () => {
     const { data, error } = await supabase
       .from("rooms")
@@ -37,6 +35,7 @@ const IndexPage: React.FC = () => {
         subject: "Sample Subject", // You can replace this with a form input for the subject
         owner_id: user.id, // Assuming the user is already logged in
         is_public: true, // Set this to false if you want the room to be private
+        tags: selectedTags,
       })
       .select();
     if (error) {
@@ -59,39 +58,43 @@ const IndexPage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto">
-      <h1 className="mb-4 text-3xl font-bold">Quiz Rooms</h1>
-      <input
-        className="p-2 mb-4 border border-gray-300 rounded"
-        type="text"
-        placeholder="Enter room name"
-        value={roomName}
-        onChange={(e) => setRoomName(e.target.value)}
-      />
-      <button
-        className="px-4 py-2 text-white bg-blue-500 rounded"
-        onClick={createRoom}
-      >
-        Create Room
-      </button>
-      <div className="mt-8 space-y-3">
+    <div className="container px-6 py-8 mx-auto">
+      <h1 className="mb-8 text-4xl font-bold">Quiz Rooms</h1>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Card for creating a quiz */}
+        <div className="p-6 text-center border border-gray-200 rounded">
+          <h2 className="mb-2 text-2xl font-bold">Create your quiz</h2>
+          <p className="mb-4 text-gray-500">
+            Start creating and sharing your own quizzes with the community.
+          </p>
+          <input
+            className="w-full p-2 mb-4 border border-gray-300 rounded"
+            type="text"
+            placeholder="Enter room name"
+            value={roomName}
+            onChange={(e) => setRoomName(e.target.value)}
+          />
+          <button
+            className="w-full px-4 py-2 text-white bg-blue-500 rounded"
+            onClick={createRoom}
+          >
+            Create Room
+          </button>
+        </div>
+        {/* List of quiz cards */}
         {rooms.map((room) => (
-          <div className="flex flex-col items-center p-4 bg-gray-100 rounded-md shadow-lg">
+          <div
+            key={room.id}
+            className="p-6 transition duration-200 bg-white border border-gray-200 rounded hover:shadow-lg"
+          >
             <h2 className="mb-2 text-2xl font-bold">{room.subject}</h2>
             <p className="mb-4 text-gray-500">{room.context}</p>
-            <div className="flex items-center justify-between w-full">
-              <button
-                onClick={() => handleJoinRoom(room.id)}
-                className="px-4 py-2 text-white bg-blue-500 rounded-md"
-              >
-                Join Room
-              </button>
-              <div className="flex items-center">
-                {/* <span className="mr-2">{users.length}</span> */}
-                <span className="mr-2">3</span>
-                {/* <UserIcon className="w-6 h-6 text-gray-500" /> */}
-              </div>
-            </div>
+            <button
+              onClick={() => handleJoinRoom(room.id)}
+              className="w-full px-4 py-2 text-white bg-blue-500 rounded"
+            >
+              Join Room
+            </button>
           </div>
         ))}
       </div>
