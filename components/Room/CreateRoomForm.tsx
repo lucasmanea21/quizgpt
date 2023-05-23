@@ -4,16 +4,23 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { API_URL } from "../../utils/config";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useTags } from "../../hooks/useTags";
 
 export const CreateRoomForm = () => {
   const user = useUser();
   const router = useRouter();
+  const tags = useTags();
 
   const [subjects, setSubjects] = useState([]);
   const [subSubjects, setSubSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedSubSubject, setSelectedSubSubject] = useState(null);
   const [context, setContext] = useState("");
+
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedDifficulty, setSelectedDifficulty] = useState("easy");
+  const [isPublic, setIsPublic] = useState(true);
+  const [numQuestions, setNumQuestions] = useState(3);
 
   console.log("user", user);
 
@@ -62,6 +69,10 @@ export const CreateRoomForm = () => {
             subject: selectedSubject,
             // context: context,
             owner_id: user.id,
+            is_public: true,
+            tags: selectedTags,
+            // difficulty: selectedDifficulty,
+            questions_number: numQuestions,
           },
         ])
         .select();
@@ -71,7 +82,9 @@ export const CreateRoomForm = () => {
       router.push(`/room/${roomData[0].id}`);
       const response = await axios.post(`${API_URL}/quiz/generate`, {
         subject: selectedSubject,
-        questions: 2,
+        questions: numQuestions,
+        context: context,
+        difficulty: selectedDifficulty,
         roomId: roomData[0].id,
       });
 
@@ -82,33 +95,124 @@ export const CreateRoomForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-4">
-      <select
-        value={selectedSubject}
-        onChange={(e) => setSelectedSubject(e.target.value)}
-      >
-        {subjects.map((subject) => (
-          <option key={subject.id} value={subject.name}>
-            {subject.name}
-          </option>
-        ))}
-      </select>
-      <select
-        value={selectedSubSubject}
-        onChange={(e) => setSelectedSubSubject(e.target.value)}
-      >
-        {subSubjects.map((subSubject) => (
-          <option key={subSubject.id} value={subSubject.id}>
-            {subSubject.name}
-          </option>
-        ))}
-      </select>
-      <input
-        type="text"
-        value={context}
-        onChange={(e) => setContext(e.target.value)}
-        placeholder="Enter context"
-      />
+    <div className="w-full max-w-md p-6 mx-auto mt-4 bg-white rounded-lg shadow-md">
+      <h2 className="mb-4 text-2xl font-bold text-center">Create Room</h2>
+
+      <div className="mb-4">
+        <label
+          className="block mb-2 text-sm font-bold text-gray-700"
+          htmlFor="subject"
+        >
+          Subject
+        </label>
+        <select
+          id="subject"
+          className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          value={selectedSubject}
+          onChange={(e) => setSelectedSubject(e.target.value)}
+        >
+          {subjects.map((subject) => (
+            <option key={subject.id} value={subject.name}>
+              {subject.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-4">
+        <label
+          className="block mb-2 text-sm font-bold text-gray-700"
+          htmlFor="tags"
+        >
+          Tags
+        </label>
+        <select
+          id="tags"
+          className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          multiple
+          onChange={(e) =>
+            setSelectedTags(
+              Array.from(e.target.selectedOptions, (option) => option.value)
+            )
+          }
+        >
+          {tags.map((tag) => (
+            <option key={tag.id} value={tag.name}>
+              {tag.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-4">
+        <label
+          className="block mb-2 text-sm font-bold text-gray-700"
+          htmlFor="difficulty"
+        >
+          Difficulty
+        </label>
+        <select
+          id="difficulty"
+          className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          value={selectedDifficulty}
+          onChange={(e) => setSelectedDifficulty(e.target.value)}
+        >
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+
+      <div className="mb-4">
+        <label
+          className="block mb-2 text-sm font-bold text-gray-700"
+          htmlFor="numQuestions"
+        >
+          Number of Questions
+        </label>
+        <input
+          id="numQuestions"
+          type="number"
+          min="1"
+          className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          value={numQuestions}
+          onChange={(e) => setNumQuestions(e.target.value)}
+        />
+      </div>
+
+      {/* <div className="mb-4">
+        <label
+          className="block mb-2 text-sm font-bold text-gray-700"
+          htmlFor="isPublic"
+        >
+          Is the room public?
+        </label>
+        <input
+          id="isPublic"
+          type="checkbox"
+          className="mr-2 leading-tight"
+          checked={isPublic}
+          onChange={(e) => setIsPublic(e.target.checked)}
+        />
+      </div> */}
+
+      <div className="mb-4">
+        <label
+          className="block mb-2 text-sm font-bold text-gray-700"
+          htmlFor="context"
+        >
+          Context
+        </label>
+        <input
+          id="context"
+          type="text"
+          value={context}
+          onChange={(e) => setContext(e.target.value)}
+          placeholder="Enter context"
+          className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+        />
+      </div>
+
       <button
         onClick={handleCreateRoom}
         className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"

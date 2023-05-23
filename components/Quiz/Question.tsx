@@ -6,7 +6,7 @@ import { correctAnswerAtom, userAnswerAtom } from "../../store/atom";
 interface QuestionProps {
   question: any;
   showAnswer: boolean;
-  onAnswer: () => void;
+  onAnswer: (answer: string) => void;
 }
 
 export const Question: React.FC<QuestionProps> = ({
@@ -23,7 +23,7 @@ export const Question: React.FC<QuestionProps> = ({
 
   const handleAnswerClick = (answer: string) => {
     setUserAnswer(answer);
-    onAnswer();
+    onAnswer(answer);
   };
 
   return (

@@ -6,19 +6,21 @@ import { gameStartTimeAtom } from "../../store/atom";
 
 interface TimerProps {
   onTimeUp: () => void;
+  time: number;
+  startTime: number;
 }
 
-export const Timer: React.FC<TimerProps> = ({ onTimeUp }) => {
-  const [startTime] = useAtom(gameStartTimeAtom);
+export const Timer: React.FC<TimerProps> = ({ onTimeUp, time, startTime }) => {
+  // const [startTime] = useAtom(gameStartTimeAtom);
 
-  const [remainingTime, setRemainingTime] = useState(GAME_DURATION);
+  const [remainingTime, setRemainingTime] = useState(time);
 
-  console.log("startTime", startTime);
+  console.log("time, startTime", time, startTime);
 
   useEffect(() => {
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, GAME_DURATION - elapsed);
+      const remaining = Math.max(0, time - elapsed);
       setRemainingTime(remaining);
       if (remaining <= 0) {
         clearInterval(interval);

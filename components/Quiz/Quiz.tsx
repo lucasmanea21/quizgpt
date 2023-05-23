@@ -23,6 +23,8 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
   const [userAnswer, setUserAnswer] = useAtom(userAnswerAtom);
   const [correctAnswer, setCorrectAnswer] = useAtom(correctAnswerAtom);
 
+  console.log("userAnswer", userAnswer);
+
   const [quizState, setQuizState] = useState("question");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -52,23 +54,33 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
           setCurrentQuestion(currentQuestion + 1);
           setTimePerQuestion(timePerQuestion);
         } else {
-          setGameEnded(true);
+          handleGameEnded();
         }
       }, 3000);
       return () => clearTimeout(timer);
     }
   }, [showAnswer]);
 
+  const handleGameEnded = async () => {
+    const { data, error } = await supabase
+      .from("rooms")
+      .update({ isFinished: true })
+      .eq("id", roomId);
+
+    if (error) {
+      console.error("Error ending game:", error);
+    }
+
+    setGameEnded(true);
+  };
+
   // this function would be called when a player submits an answer
   const handleAnswer = async (playerId, isCorrect, answer) => {
-    console.log("handleAnswer", playerId, isCorrect, answer);
-
-    setShowAnswer(true);
     // update the player's results
     setResults((prevResults) => {
       const newResults = [...prevResults];
       const playerResult = newResults.find(
-        (result) => result.playerId === playerId
+        (result) => result.user_id === playerId
       );
       if (playerResult) {
         playerResult.correctAnswers += isCorrect ? 1 : 0;
@@ -79,14 +91,21 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
     });
 
     // Save the answer to the database
-    const { error } = await supabase.from("responses").insert([
-      {
-        user_id: playerId,
-        room_id: roomId,
-        step: currentQuestion,
-        answer: answer,
-      },
-    ]);
+    const { data, error } = await supabase
+      .from("responses")
+      .insert([
+        {
+          user_id: playerId,
+          room_id: roomId,
+          step: currentQuestion + 1,
+          answer: answer,
+        },
+      ])
+      .select();
+
+    console.log("data", data);
+
+    data && setShowAnswer(true);
 
     if (error) {
       console.error("Error saving answer:", error);
@@ -98,7 +117,7 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
   }
 
   if (showAnswer) {
-    return <Answer questionStep={currentQuestion} roomId={roomId} />;
+    return <Answer questionStep={currentQuestion + 1} roomId={roomId} />;
   }
 
   return (
@@ -108,13 +127,16 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
           <Question
             question={questions[currentQuestion]}
             showAnswer={showAnswer}
-            onAnswer={() =>
-              handleAnswer(user.id, correctAnswer == userAnswer, userAnswer)
+            onAnswer={(answer: string) =>
+              handleAnswer(user.id, correctAnswer == userAnswer, answer)
             } // modify the Question component to accept this prop
           />
           <Timer
-            initialTime={timePerQuestion}
-            onTimeUp={() => handleAnswer(null, false)}
+            time={timePerQuestion * 1000}
+            startTime={Date.now()}
+            onTimeUp={() =>
+              handleAnswer(user.id, correctAnswer == userAnswer, userAnswer)
+            }
           />
         </CardWrapper>
       )}
