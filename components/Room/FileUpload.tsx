@@ -23,12 +23,12 @@ const FileUpload = ({ onFileSelect }) => {
 
   return (
     <div
-      className="flex items-center justify-center h-48 text-gray-600 border-4 border-gray-600 border-dashed rounded-lg"
+      className="flex items-center justify-center h-48 mb-5 text-gray-600 border-4 border-gray-600 border-dashed rounded-lg"
       onDragOver={handleDragOver}
       onDrop={handleFileDrop}
     >
       <label className="cursor-pointer">
-        <span>Drag and drop your file here, or</span>
+        <span>Drag and drop your file here, or </span>
         <input type="file" className="hidden" onChange={handleFileInput} />
         <span className="text-blue-600 hover:underline">Browse</span>
       </label>

@@ -12,7 +12,9 @@ function MyApp({ Component, pageProps }) {
       initialSession={pageProps.initialSession}
     >
       <Navbar />
-      <Component {...pageProps} />{" "}
+      <div className="">
+        <Component {...pageProps} />{" "}
+      </div>
     </SessionContextProvider>
   );
 }

@@ -1,54 +1,46 @@
+// ProfileComponent.tsx
 import React from "react";
-import useProfile from "../../hooks/useProfile";
-import { FaUser, FaGamepad, FaLevelUpAlt, FaGlobe } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useAtom } from "jotai";
+import { userProfileAtom } from "../../store/atom";
+import AchievementComponent from "./AchievementComponent";
+import BadgeComponent from "./Badge";
+import SocialMediaComponent from "./SocialMedia";
+import ProfileInfo from "./ProfileInfo";
 
-const Profile = () => {
-  const user = useUser();
+const ProfileComponent: React.FC = () => {
+  const [userProfile] = useAtom(userProfileAtom);
 
-  console.log("user", user);
-
-  const { profile, loading } = useProfile(user?.id);
-
-  console.log("profile", profile);
-
-  if (loading) return <p>Loading...</p>;
+  if (!userProfile) return null;
 
   return (
-    <div className="container p-6 mx-auto">
-      <div className="flex items-center mb-6">
-        <FaUser className="mr-4 text-4xl" />
-        <h1 className="text-2xl font-bold">{profile.full_name}</h1>
+    <div className="flex flex-col items-center justify-center w-2/3 p-4 mt-5 space-y-4 text-white bg-black rounded-md shadow">
+      <ProfileInfo userProfile={userProfile} />
+      <div className="grid grid-cols-2 gap-4">
+        {/* {userProfile?.achievements?.map((achievement) => (
+          <AchievementComponent
+            key={achievement.id}
+            achievement={achievement}
+          />
+        ))} */}
       </div>
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="flex items-center">
-          <MdEmail className="mr-4 text-2xl" />
-          <p>{profile.email}</p>
-        </div>
-        <div className="flex items-center">
-          <FaGlobe className="mr-4 text-2xl" />
-          <p>{profile.website}</p>
-        </div>
-        <div className="flex items-center">
-          <FaGamepad className="mr-4 text-2xl" />
-          <p>{profile.games_played} games played</p>
-        </div>
-        <div className="flex items-center">
-          <FaLevelUpAlt className="mr-4 text-2xl" />
-          <p>Level: {profile.level}</p>
-        </div>
+      <div className="grid grid-cols-3 gap-4">
+        {userProfile?.badges?.map((badge) => (
+          <BadgeComponent key={badge.id} badge={badge} />
+        ))}
       </div>
-      <div className="mb-6">
-        <h2 className="mb-2 text-xl font-bold">Bio:</h2>
-        <p>{profile.bio}</p>
-      </div>
-      <div className="mb-6">
-        <h2 className="mb-2 text-xl font-bold">Socials:</h2>
-        <p>{profile.socials}</p>
+      <div className="flex items-center justify-between w-2/3 space-x-5">
+        <SocialMediaComponent socialMedia={userProfile.socialMedia} />
+        <div>
+          <button className="self-center w-full p-2 mt-4 text-lg font-bold text-black bg-white rounded">
+            Edit Profile
+          </button>
+          <button className="self-center w-full p-2 mt-2 text-lg font-bold text-black bg-white rounded">
+            Log Out
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Profile;
+export default ProfileComponent;

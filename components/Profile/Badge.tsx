@@ -13,12 +13,12 @@ const BadgeComponent: React.FC<Props> = ({ badge }) => {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative p-4 bg-gray-800 rounded shadow"
+      className="relative rounded shadow"
     >
       <img
         src={badge.image}
         alt={badge.name}
-        className="w-16 h-16 mx-auto rounded"
+        className="w-12 h-12 mx-auto rounded-full"
       />
       {isHovered && (
         <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full p-2 bg-gray-800 bg-opacity-75 rounded">

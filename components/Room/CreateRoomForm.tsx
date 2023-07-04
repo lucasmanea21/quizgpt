@@ -5,6 +5,7 @@ import { API_URL } from "../../utils/config";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useTags } from "../../hooks/useTags";
+import TextareaAutosize from "react-textarea-autosize";
 import FileUpload from "./FileUpload";
 
 export const CreateRoomForm = () => {
@@ -99,8 +100,10 @@ export const CreateRoomForm = () => {
 
   return (
     <div className="w-full max-w-md p-6 mx-auto text-white bg-black rounded-lg shadow-md bg-opacity-95">
-      <h2 className="mb-4 text-2xl font-bold text-center">Create Quiz</h2>
-
+      <div className="mb-7">
+        <h2 className="mb-2 text-3xl font-bold ">Create Quiz</h2>
+        <p>Generate quizzes with the power of AI.</p>
+      </div>
       {/* Subjects */}
       <div className="mb-4">
         <label
@@ -149,42 +152,44 @@ export const CreateRoomForm = () => {
         </select>
       </div>
 
-      {/* Difficulty */}
-      <div className="mb-4">
-        <label
-          className="block mb-2 text-sm font-bold text-gray-200"
-          htmlFor="difficulty"
-        >
-          Difficulty
-        </label>
-        <select
-          id="difficulty"
-          className="w-full p-2 px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
-          value={selectedDifficulty}
-          onChange={(e) => setSelectedDifficulty(e.target.value)}
-        >
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-      </div>
+      <div className="flex space-x-5">
+        {/* Difficulty */}
+        <div className="w-1/2 mb-4">
+          <label
+            className="block mb-2 text-sm font-bold text-gray-200"
+            htmlFor="difficulty"
+          >
+            Difficulty
+          </label>
+          <select
+            id="difficulty"
+            className="w-full p-2 px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
+            value={selectedDifficulty}
+            onChange={(e) => setSelectedDifficulty(e.target.value)}
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
 
-      {/* Number of questions */}
-      <div className="mb-4">
-        <label
-          className="block mb-2 text-sm font-bold text-gray-200"
-          htmlFor="numQuestions"
-        >
-          Number of Questions
-        </label>
-        <input
-          id="numQuestions"
-          type="number"
-          min="1"
-          className="w-full p-2 px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
-          value={numQuestions}
-          onChange={(e) => setNumQuestions(e.target.value)}
-        />
+        {/* Number of questions */}
+        <div className="mb-4">
+          <label
+            className="block mb-2 text-sm font-bold text-gray-200"
+            htmlFor="numQuestions"
+          >
+            Number of Questions
+          </label>
+          <input
+            id="numQuestions"
+            type="number"
+            min="1"
+            className="w-full p-2 px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
+            value={numQuestions}
+            onChange={(e) => setNumQuestions(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* Is public */}
@@ -207,18 +212,17 @@ export const CreateRoomForm = () => {
       {/* Context */}
       <div className="mb-4">
         <label
-          className="block mb-2 text-sm font-bold text-gray-200 "
+          className="block mb-2 text-sm font-bold text-gray-200"
           htmlFor="context"
         >
           Context
         </label>
-        <input
+        <TextareaAutosize
           id="context"
-          type="text"
           value={context}
           onChange={(e) => setContext(e.target.value)}
-          placeholder="Enter context"
-          className="w-full px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
+          placeholder="Create a very hard quiz about the history of programming. Mention people like Alan Turing, Ada Lovelace, and Charles Babbage."
+          className="w-full px-3 py-3 text-sm leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
         />
       </div>
 

@@ -1,3 +1,12 @@
+export interface Quiz {
+  id: string;
+  name: string;
+  difficulty: string;
+  numberOfQuestions: number;
+  correctAnswers: number;
+  dateTaken: string;
+}
+
 export interface UserProfile {
   id: string;
   name: string;
@@ -7,6 +16,7 @@ export interface UserProfile {
   achievements: Achievement[];
   badges: Badge[];
   socialMedia: SocialMediaLinks;
+  quizHistory: Quiz[];
 }
 
 export interface Achievement {
