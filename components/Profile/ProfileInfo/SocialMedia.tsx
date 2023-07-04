@@ -1,6 +1,6 @@
 // SocialMediaComponent.tsx
 import React from "react";
-import { SocialMediaLinks } from "../../interfaces/userProfile";
+import { SocialMediaLinks } from "../../../interfaces/userProfile";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa"; // install react-icons for these
 
 interface Props {

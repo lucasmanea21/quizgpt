@@ -2,19 +2,25 @@
 import React from "react";
 import { useAtom } from "jotai";
 import { userProfileAtom } from "../../store/atom";
-import AchievementComponent from "./AchievementComponent";
-import BadgeComponent from "./Badge";
-import SocialMediaComponent from "./SocialMedia";
-import ProfileInfo from "./ProfileInfo";
+import AchievementComponent from "./ProfileInfo/AchievementComponent";
+import BadgeComponent from "./ProfileInfo/Badge";
+import SocialMediaComponent from "./ProfileInfo/SocialMedia";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import useProfile from "../../hooks/useProfile";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const ProfileComponent: React.FC = () => {
   const [userProfile] = useAtom(userProfileAtom);
+  const user = useUser();
+  const { profile } = useProfile(user?.id);
+
+  console.log("profile, user", profile, user);
 
   if (!userProfile) return null;
 
   return (
-    <div className="flex flex-col items-center justify-center w-2/3 p-4 mt-5 space-y-4 text-white bg-black rounded-md shadow">
-      <ProfileInfo userProfile={userProfile} />
+    <div className="flex flex-col items-center justify-center w-3/4 p-4 mt-5 space-y-4 text-white bg-black rounded-md shadow">
+      <ProfileInfo userProfile={profile} />
       <div className="grid grid-cols-2 gap-4">
         {/* {userProfile?.achievements?.map((achievement) => (
           <AchievementComponent

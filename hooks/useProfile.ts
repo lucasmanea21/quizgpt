@@ -10,7 +10,7 @@ const useProfile = (userId: string) => {
   useEffect(() => {
     const fetchProfile = async () => {
       const { data, error } = await supabase
-        .from("profiles")
+        .from("user_profiles")
         .select("*")
         .eq("id", userId)
         .single();

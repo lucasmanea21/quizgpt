@@ -4,7 +4,7 @@ import { useAtom } from "jotai";
 import { userProfileAtom } from "../store/atom";
 import { dummyUserProfile } from "../utils/dummyData";
 import ProfileComponent from "../components/Profile/Profile";
-import QuizHistoryComponent from "../components/Profile/QuizHistory";
+import QuizHistoryComponent from "../components/Profile/History/QuizHistory";
 
 const ProfilePage = () => {
   const [userProfile, setUserProfile] = useAtom(userProfileAtom);

@@ -1,6 +1,6 @@
 // BadgeComponent.tsx
 import React, { useState } from "react";
-import { Badge } from "../../interfaces/userProfile";
+import { Badge } from "../../../interfaces/userProfile";
 
 interface Props {
   badge: Badge;

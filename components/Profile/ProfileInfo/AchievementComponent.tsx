@@ -1,6 +1,6 @@
 // AchievementComponent.tsx
 import React from "react";
-import { Achievement } from "../../interfaces/userProfile";
+import { Achievement } from "../../../interfaces/userProfile";
 
 interface Props {
   achievement: Achievement;
