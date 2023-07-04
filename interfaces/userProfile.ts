@@ -11,7 +11,7 @@ export interface UserProfile {
   id: string;
   name: string;
   bio: string;
-  image: string;
+  avatar_url: string;
   quizzesPlayed: number;
   achievements: Achievement[];
   badges: Badge[];
