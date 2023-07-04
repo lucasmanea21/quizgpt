@@ -16,7 +16,10 @@ export const QuizOver = () => (
 
 const RoomPage: React.FC = () => {
   const router = useRouter();
-  const { roomId } = router.query;
+  const { quizId } = router.query;
+  console.log("router.query", router.query);
+
+  console.log("roomId", quizId);
 
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -24,7 +27,7 @@ const RoomPage: React.FC = () => {
 
   console.log("gameStartTime", gameStartTime);
 
-  if (!roomId) {
+  if (!quizId) {
     return (
       <div className="container mx-auto text-center">
         <p>Loading...</p>
@@ -37,12 +40,12 @@ const RoomPage: React.FC = () => {
   }
 
   if (!gameStarted) {
-    return <Room roomId={roomId} setGameStarted={setGameStarted} />;
+    return <Room roomId={quizId} setGameStarted={setGameStarted} />;
   }
 
   return (
     <div className="container mx-auto">
-      <Quiz roomId={roomId as string} gameStartTime={gameStartTime} />
+      <Quiz roomId={quizId as string} gameStartTime={gameStartTime} />
     </div>
   );
 };

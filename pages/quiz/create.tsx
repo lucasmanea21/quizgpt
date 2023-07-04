@@ -3,7 +3,7 @@ import { CreateRoomForm } from "../../components/Room/CreateRoomForm";
 
 const CreatePage = () => {
   return (
-    <div>
+    <div className="bg-black bg-opacity-90 ">
       <CreateRoomForm />
     </div>
   );

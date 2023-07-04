@@ -10,6 +10,7 @@ import { supabase } from "../../utils/supabaseClient";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useAtom } from "jotai";
 import { correctAnswerAtom, userAnswerAtom } from "../../store/atom";
+import QuestionResult from "./QuestionsResult";
 
 interface QuizProps {
   roomId: string;
@@ -31,11 +32,12 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
   const [gameEnded, setGameEnded] = useState(false);
   const [results, setResults] = useState([]);
   const [timePerQuestion, setTimePerQuestion] = useState(30);
+  const [userAnswers, setUserAnswers] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchRoomData = async () => {
       let { data: room, error } = await supabase
-        .from("rooms")
+        .from("user_quizzes")
         .select("time_per_question")
         .eq("id", roomId);
 
@@ -103,17 +105,28 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
       ])
       .select();
 
-    console.log("data", data);
+    setUserAnswers((prevAnswers) => [
+      ...prevAnswers,
+      {
+        answer: answer,
+        correct: isCorrect,
+      },
+    ]);
 
-    data && setShowAnswer(true);
+    if (currentQuestion + 1 < questions.length) {
+      setCurrentQuestion((prevValue) => prevValue + 1);
+    } else {
+      handleGameEnded();
+    }
 
     if (error) {
       console.error("Error saving answer:", error);
     }
   };
 
+  console.log("questions", questions);
   if (gameEnded) {
-    return <GameResults results={results} gameSummary="The game has ended." />;
+    return <QuestionResult questions={questions} userAnswers={userAnswers} />;
   }
 
   if (showAnswer) {
@@ -127,17 +140,18 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
           <Question
             question={questions[currentQuestion]}
             showAnswer={showAnswer}
+            questionIndex={currentQuestion + 1}
             onAnswer={(answer: string) =>
               handleAnswer(user.id, correctAnswer == userAnswer, answer)
             } // modify the Question component to accept this prop
           />
-          <Timer
+          {/* <Timer
             time={timePerQuestion * 1000}
             startTime={Date.now()}
             onTimeUp={() =>
               handleAnswer(user.id, correctAnswer == userAnswer, userAnswer)
             }
-          />
+          /> */}
         </CardWrapper>
       )}
     </div>
