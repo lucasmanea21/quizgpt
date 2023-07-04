@@ -5,8 +5,8 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
   const percentile = userAnswers.filter((item: any) => item.correct).length;
 
   return (
-    <div>
-      <div className="w-full p-6 mb-4 rounded-lg bg-second-color">
+    <div className="text-white">
+      <div className="w-full p-6 mb-4 text-black bg-red-200 rounded-lg">
         <div className="relative grid w-full overflow-hidden h-30 place-items-center">
           <span className="relative z-10 -top-2 text-9xl font-nabla">
             {Math.round((percentile / questions.length) * 100)}%

@@ -18,17 +18,22 @@ export const Question: React.FC<QuestionProps> = ({
 }) => {
   const [userAnswer, setUserAnswer] = useAtom(userAnswerAtom);
   const [correctAnswer, setCorrectAnswer] = useAtom(correctAnswerAtom);
+  const [answerSelected, setAnswerSelected] = useState(false);
 
   useEffect(() => {
     setCorrectAnswer(question.correct);
   }, [question]);
 
   const handleAnswerClick = (answer: string) => {
+    setAnswerSelected(false);
+
     onAnswer(answer);
   };
 
+  console.log("userAnswer", userAnswer);
+
   return (
-    <div>
+    <div className="text-white bg-black rounded-md">
       <h5>Question {questionIndex}</h5>
       <h2 className="mb-3 text-2xl font-bold">{question.question}</h2>
       <div className="flex flex-col justify-end">
@@ -42,18 +47,23 @@ export const Question: React.FC<QuestionProps> = ({
                   : "bg-gray-100 text-gray-700"
               }`}
               disabled={showAnswer}
-              onClick={() => setUserAnswer(answer)}
+              onClick={() => {
+                setAnswerSelected(true);
+                setUserAnswer(answer);
+              }}
             >
               {answer}
             </button>
           ))}
         </div>
-        <button
-          className="w-20 h-10 text-white bg-blue-400 rounded-lg"
-          onClick={() => handleAnswerClick(userAnswer)}
-        >
-          Next
-        </button>
+        {answerSelected && (
+          <button
+            className="w-20 h-10 text-white bg-blue-400 rounded-lg"
+            onClick={() => handleAnswerClick(userAnswer)}
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ const RoomPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="flex justify-center w-full p-10 m-0 mx-auto bg-black  bg-opacity-90">
       <Quiz roomId={quizId as string} gameStartTime={gameStartTime} />
     </div>
   );
