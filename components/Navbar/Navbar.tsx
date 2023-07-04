@@ -38,7 +38,10 @@ const Navbar = () => {
   }, []);
 
   return (
-    <Disclosure as="nav" className="z-10 bg-black bg-opacity-95">
+    <Disclosure
+      as="nav"
+      className="fixed top-0 left-0 right-0 z-10 bg-black bg-opacity-95"
+    >
       {({ open }) => (
         <>
           <div className="p-3 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">

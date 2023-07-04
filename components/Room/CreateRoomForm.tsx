@@ -127,7 +127,7 @@ export const CreateRoomForm = () => {
       </div>
 
       {/* Tags */}
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <label
           className="block mb-2 text-sm font-bold text-gray-200"
           htmlFor="tags"
@@ -150,7 +150,7 @@ export const CreateRoomForm = () => {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
 
       <div className="flex space-x-5">
         {/* Difficulty */}

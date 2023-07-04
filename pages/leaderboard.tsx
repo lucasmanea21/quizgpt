@@ -28,7 +28,7 @@ const Leaderboard = () => {
             {leaderboard.map((user, index) => (
               <tr key={user.id} className="border-t">
                 <td className="py-4">{index + 1}</td>
-                <td>{user.full_name}</td>
+                <td>{user.name}</td>
                 <td>{user.quizzes}</td>
               </tr>
             ))}

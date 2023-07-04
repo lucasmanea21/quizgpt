@@ -5,7 +5,19 @@ const useProfile = (userId: string) => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log("userId hook", userId);
+  const updateProfile = async (updatedProfile) => {
+    const { data, error } = await supabase
+      .from("user_profiles")
+      .update(updatedProfile)
+      .eq("id", userId);
+
+    if (error) {
+      console.error("Failed to update profile", error);
+      throw error;
+    }
+
+    setProfile(data && data[0]);
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -24,7 +36,7 @@ const useProfile = (userId: string) => {
     if (userId) fetchProfile();
   }, [userId]);
 
-  return { profile, loading };
+  return { profile, loading, updateProfile };
 };
 
 export default useProfile;

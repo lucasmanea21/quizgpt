@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
       initialSession={pageProps.initialSession}
     >
       <Navbar />
-      <div className="">
+      <div className="mt-[85px]">
         <Component {...pageProps} />{" "}
       </div>
     </SessionContextProvider>
