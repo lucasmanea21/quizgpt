@@ -9,6 +9,7 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import useProfile from "../../hooks/useProfile";
 import { useUser } from "@supabase/auth-helpers-react";
 import ProfileEditForm from "./ProfileInfo/EditForm";
+import { supabase } from "../../utils/supabaseClient";
 
 const ProfileComponent: React.FC = () => {
   const [userProfile] = useAtom(userProfileAtom);
@@ -21,6 +22,10 @@ const ProfileComponent: React.FC = () => {
   const onSave = async (updatedProfile) => {
     await updateProfile(updatedProfile);
     setIsEditing(false);
+  };
+
+  const onLogout = async () => {
+    await supabase.auth.signOut();
   };
 
   if (!userProfile) return null;
@@ -55,7 +60,10 @@ const ProfileComponent: React.FC = () => {
               >
                 Edit Profile
               </button>
-              <button className="self-center w-full p-2 mt-2 text-lg font-bold text-black bg-white rounded">
+              <button
+                onClick={onLogout}
+                className="self-center w-full p-2 mt-2 text-lg font-bold text-black bg-white rounded"
+              >
                 Log Out
               </button>
             </div>

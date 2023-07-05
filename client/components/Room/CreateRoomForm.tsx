@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useTags } from "../../hooks/useTags";
 import TextareaAutosize from "react-textarea-autosize";
 import FileUpload from "./FileUpload";
+import { FaUser, FaUsers } from "react-icons/fa";
 
 export const CreateRoomForm = () => {
   const user = useUser();
@@ -18,6 +19,7 @@ export const CreateRoomForm = () => {
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedSubSubject, setSelectedSubSubject] = useState(null);
   const [context, setContext] = useState("");
+  const [mode, setMode] = useState("solo");
 
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState("easy");
@@ -98,36 +100,70 @@ export const CreateRoomForm = () => {
     }
   };
 
+  const handleModeChange = (selectedMode) => {
+    setMode(selectedMode);
+  };
+
   return (
-    <div className="w-full max-w-md p-6 mx-auto text-white bg-black rounded-lg shadow-md bg-opacity-95">
-      <div className="mb-7">
+    <div className="flex flex-col items-center justify-center w-full max-w-md p-6 mx-auto text-white bg-black rounded-lg shadow-md bg-opacity-95">
+      <div className="w-full mb-7">
         <h2 className="mb-2 text-3xl font-bold ">Create Quiz</h2>
-        <p>Generate quizzes with the power of AI.</p>
-      </div>
-      {/* Subjects */}
-      <div className="mb-4">
-        <label
-          className="block mb-2 text-sm font-bold text-gray-200"
-          htmlFor="subject"
-        >
-          Subject
-        </label>
-        <select
-          id="subject"
-          className="w-full px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
-          value={selectedSubject}
-          onChange={(e) => setSelectedSubject(e.target.value)}
-        >
-          {subjects.map((subject) => (
-            <option key={subject.id} value={subject.name}>
-              {subject.name}
-            </option>
-          ))}
-        </select>
+        <p className="text-sm">
+          Easily generate quizzes on any subject, with the power of AI.
+        </p>
       </div>
 
-      {/* Tags */}
-      {/* <div className="mb-4">
+      {/* Mode Selector */}
+      <div className="flex w-full mb-4 rounded-md">
+        <button
+          className={`flex-1 py-2 text-md font-bold rounded-md items-center flex justify-center ${
+            mode === "solo"
+              ? "bg-blue-500 text-white"
+              : "bg-gradient-to-r from-gray-700 to-gray-800 text-gray-300 hover:bg-gray-700 hover:text-gray-200"
+          }`}
+          onClick={() => handleModeChange("solo")}
+        >
+          <FaUser className="mr-2" size="16" />
+          Solo
+        </button>
+        <button
+          className={`flex-1 py-2 text-md font-bold rounded-md items-center flex justify-center ${
+            mode === "multiplayer"
+              ? "bg-blue-500 text-white"
+              : "bg-gradient-to-r from-gray-700 to-gray-800 text-gray-300 hover:bg-gray-700 hover:text-gray-200"
+          }`}
+          onClick={() => handleModeChange("multiplayer")}
+        >
+          <FaUsers className="mr-2" size="20" />
+          Multiplayer
+        </button>
+      </div>
+
+      <div className="w-full px-2 mt-2">
+        {/* Subjects */}
+        <div className="mb-4">
+          <label
+            className="block mb-2 text-sm font-bold text-gray-200"
+            htmlFor="subject"
+          >
+            Subject
+          </label>
+          <select
+            id="subject"
+            className="w-full px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
+            value={selectedSubject}
+            onChange={(e) => setSelectedSubject(e.target.value)}
+          >
+            {subjects.map((subject) => (
+              <option key={subject.id} value={subject.name}>
+                {subject.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Tags */}
+        {/* <div className="mb-4">
         <label
           className="block mb-2 text-sm font-bold text-gray-200"
           htmlFor="tags"
@@ -152,48 +188,48 @@ export const CreateRoomForm = () => {
         </select>
       </div> */}
 
-      <div className="flex space-x-5">
-        {/* Difficulty */}
-        <div className="w-1/2 mb-4">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-200"
-            htmlFor="difficulty"
-          >
-            Difficulty
-          </label>
-          <select
-            id="difficulty"
-            className="w-full p-2 px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
-            value={selectedDifficulty}
-            onChange={(e) => setSelectedDifficulty(e.target.value)}
-          >
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
+        <div className="flex space-x-5">
+          {/* Difficulty */}
+          <div className="w-1/2 mb-4">
+            <label
+              className="block mb-2 text-sm font-bold text-gray-200"
+              htmlFor="difficulty"
+            >
+              Difficulty
+            </label>
+            <select
+              id="difficulty"
+              className="w-full p-2 px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
+              value={selectedDifficulty}
+              onChange={(e) => setSelectedDifficulty(e.target.value)}
+            >
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+
+          {/* Number of questions */}
+          <div className="mb-4">
+            <label
+              className="block mb-2 text-sm font-bold text-gray-200"
+              htmlFor="numQuestions"
+            >
+              Number of Questions
+            </label>
+            <input
+              id="numQuestions"
+              type="number"
+              min="1"
+              className="w-full p-2 px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
+              value={numQuestions}
+              onChange={(e) => setNumQuestions(e.target.value)}
+            />
+          </div>
         </div>
 
-        {/* Number of questions */}
-        <div className="mb-4">
-          <label
-            className="block mb-2 text-sm font-bold text-gray-200"
-            htmlFor="numQuestions"
-          >
-            Number of Questions
-          </label>
-          <input
-            id="numQuestions"
-            type="number"
-            min="1"
-            className="w-full p-2 px-3 py-3 leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
-            value={numQuestions}
-            onChange={(e) => setNumQuestions(e.target.value)}
-          />
-        </div>
-      </div>
-
-      {/* Is public */}
-      {/* <div className="mb-4">
+        {/* Is public */}
+        {/* <div className="mb-4">
         <label
           className="block mb-2 text-sm font-bold text-gray-200"
           htmlFor="isPublic"
@@ -209,34 +245,35 @@ export const CreateRoomForm = () => {
         />
       </div> */}
 
-      {/* Context */}
-      <div className="mb-4">
-        <label
-          className="block mb-2 text-sm font-bold text-gray-200"
-          htmlFor="context"
+        {/* Context */}
+        <div className="mb-4">
+          <label
+            className="block mb-2 text-sm font-bold text-gray-200"
+            htmlFor="context"
+          >
+            Context
+          </label>
+          <TextareaAutosize
+            id="context"
+            value={
+              "Create a very hard quiz about the history of programming. Mention people like Alan Turing, Ada Lovelace, and Charles Babbage."
+            }
+            onChange={(e) => setContext(e.target.value)}
+            placeholder="Create a very hard quiz about the history of programming. Mention people like Alan Turing, Ada Lovelace, and Charles Babbage."
+            className="w-full px-3 py-3 text-sm leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        {/* File Upload */}
+        <FileUpload onFileSelect={setFile} />
+
+        <button
+          onClick={handleCreateRoom}
+          className="w-full px-4 py-3 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline"
         >
-          Context
-        </label>
-        <TextareaAutosize
-          id="context"
-          value={
-            "Create a very hard quiz about the history of programming. Mention people like Alan Turing, Ada Lovelace, and Charles Babbage."
-          }
-          onChange={(e) => setContext(e.target.value)}
-          placeholder="Create a very hard quiz about the history of programming. Mention people like Alan Turing, Ada Lovelace, and Charles Babbage."
-          className="w-full px-3 py-3 text-sm leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"
-        />
+          Create Quiz
+        </button>
       </div>
-
-      {/* File Upload */}
-      <FileUpload onFileSelect={setFile} />
-
-      <button
-        onClick={handleCreateRoom}
-        className="w-full px-4 py-3 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-      >
-        Create Quiz
-      </button>
     </div>
   );
 };

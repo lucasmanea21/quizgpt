@@ -1,12 +1,13 @@
 import React from "react";
 import Link from "next/link";
+import { FaCheck, FaMedal, FaStar, FaTimes } from "react-icons/fa";
 
 const QuestionResult = ({ questions, userAnswers }: any) => {
   const percentile = userAnswers.filter((item: any) => item.correct).length;
 
   return (
     <div className="text-white">
-      <div className="w-full p-6 mb-4 text-black bg-red-200 rounded-lg">
+      <div className="flex flex-col items-center justify-center w-full p-6 text-white rounded-lg bg-gradient-to-r from-zinc-700 to-zinc-800">
         <div className="relative grid w-full overflow-hidden h-30 place-items-center">
           <span className="relative z-10 -top-2 text-9xl font-nabla">
             {Math.round((percentile / questions.length) * 100)}%
@@ -17,37 +18,48 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
             alt="result"
           /> */}
         </div>
-        <p className="my-4 text-sm font-medium text-center text-text-color">
+        <p className="my-4 font-medium text-center text-md text-text-color">
           You answered {percentile} out of {questions.length} questions
           correctly!
         </p>
         <Link
           href="/"
-          className="block w-full px-6 py-5 text-sm text-center border-none rounded-full outline-none cursor-pointer text-text-color bg-opacity-second"
+          className="block w-full px-2 py-2 mt-2 text-lg font-semibold text-center text-white bg-blue-500 border-none rounded-lg outline-none cursor-pointer md:w-1/3 bg-opacity-70 text-text-color"
         >
           Start a new quiz!
         </Link>
       </div>
 
+      <div className="flex flex-col mt-5 mb-10 space-y-3">
+        <div className="flex flex-col items-center justify-between w-full p-4 space-y-3 text-white rounded-lg shadow md:space-y-0 md:flex-row bg-gradient-to-r from-green-700 to-blue-700">
+          <div className="flex items-center">
+            <FaStar className="mr-2" />
+            <p>
+              {/* <strong>Points Earned:</strong> {points} */}
+              <strong>Points Earned:</strong> 124
+            </p>
+          </div>
+          <div className="flex items-center">
+            <FaMedal className="mr-2" />
+            <p>
+              <strong>XP Gained:</strong> 520
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col space-y-3">
-        <h1>Check correct answers</h1>
+        <h1 className="mb-3 text-3xl">Questions & Answers</h1>
         {questions.map((item, key) => {
           console.log();
           return (
-            <div
-              key={key}
-              className={`p-5 rounded-xl bg-white ${
-                userAnswers[key].correct
-                  ? "border-l-4 border-green-400"
-                  : "border-l-4 border-red-500"
-              }`}
-            >
+            <div key={key} className={`p-5 rounded-xl bg-zinc-800 text-white `}>
               <div className="grid items-center grid-cols-2 gap-4">
                 <div>
-                  <p className="mb-2 text-xs tracking-widest text-blue-500 uppercase">
-                    Question: {key + 1}
+                  <p className="mb-2 text-sm tracking-widest text-blue-200 uppercase">
+                    Question {key + 1}
                   </p>
-                  <h3 className="text-sm font-semibold text-gray-800">
+                  <h3 className="font-semibold text-gray-200 text-md">
                     {item.question}
                   </h3>
                 </div>
@@ -56,37 +68,36 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
                     userAnswers[key].correct ? "bg-green-100" : "bg-red-100"
                   }`}
                 >
-                  <i
-                    className={`text-2xl ${
-                      userAnswers[key].correct
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
-                  ></i>
+                  {userAnswers[key].correct ? (
+                    // <FaCheck className="text-2xl text-green-500" />
+                    <FaCheck className="text-2xl text-green-700" />
+                  ) : (
+                    <FaTimes className="text-2xl text-red-700" />
+                  )}
                 </div>
               </div>
               <div className="grid items-center grid-cols-2 gap-2 mt-4">
                 <div
                   className={`w-full rounded-md p-3 flex flex-col space-y-1 ${
-                    userAnswers[key].correct ? "bg-green-100" : "bg-red-100"
+                    userAnswers[key].correct ? "bg-green-900" : "bg-red-900"
                   }`}
                 >
                   <span
-                    className={`text-xs text-gray-500 ${
+                    className={`text-xs text-gray-200 ${
                       userAnswers[key].correct
-                        ? "text-green-500"
-                        : "text-red-500"
+                        ? "text-green-100"
+                        : "text-red-100"
                     }`}
                   >
                     Your Answer
                   </span>
-                  <span className="text-sm text-gray-800">
+                  <span className="text-gray-100 text-md">
                     {userAnswers[key].answer}
                   </span>
                 </div>
-                <div className="flex flex-col w-full p-3 space-y-1 bg-gray-200 rounded-md">
-                  <span className="text-xs text-gray-500">Correct Answer</span>
-                  <span className="text-sm text-gray-800">
+                <div className="flex flex-col w-full p-3 space-y-1 rounded-md bg-zinc-900">
+                  <span className="text-xs text-gray-300">Correct Answer</span>
+                  <span className="text-gray-100 text-md">
                     {item.options.map((ans) => {
                       return ans == item.correct ? ans : null;
                     })}

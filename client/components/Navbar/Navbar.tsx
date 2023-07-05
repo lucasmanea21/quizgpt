@@ -49,7 +49,7 @@ const Navbar = () => {
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
                 <Link href="/">
-                  <h1 className="text-2xl font-bold text-white">QuizGPT</h1>
+                  <h1 className="text-3xl font-bold text-white">QuizGPT</h1>
                 </Link>
 
                 {!isMobile && (
@@ -58,7 +58,7 @@ const Navbar = () => {
                       {navigation.map((item, itemIdx) => (
                         <Link
                           href={item.href}
-                          className="flex px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+                          className="flex items-center px-3 py-2 text-lg font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                           key={itemIdx}
                         >
                           <item.icon
@@ -81,11 +81,13 @@ const Navbar = () => {
                       className="flex items-center text-white"
                     >
                       <img
-                        className="w-8 h-8 rounded-full"
+                        className="rounded-full w-9 h-9"
                         src={user.user_metadata.avatar_url}
                         alt=""
                       />
-                      <p className="ml-3">{user.user_metadata.full_name}</p>
+                      <p className="ml-3 text-md">
+                        {user.user_metadata.full_name}
+                      </p>
                     </Link>
                     {/* <button className="p-1 ml-3 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                       <span className="sr-only">Logout</span>
@@ -96,9 +98,9 @@ const Navbar = () => {
               ) : (
                 <div className="hidden md:block">
                   <div className="flex items-center ml-4 md:ml-6">
-                    <Link href="/login">
+                    <Link href="/auth">
                       <button className="p-1 ml-3 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                        <span className="sr-only">Login</span>
+                        <p className="text-lg sr-only">Login</p>
                         <FaUser className="w-6 h-6" aria-hidden="true" />
                       </button>
                     </Link>

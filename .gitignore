@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
+/client/.next
+client/.next
+client/node_modules
 
 # testing
 /coverage
@@ -14,6 +17,10 @@
 
 # production
 /build
+/backend/model/node_modules
+/backend/model/.env
+/backend/multiplayer/.env
+/backend/llm/.env
 
 # misc
 .DS_Store

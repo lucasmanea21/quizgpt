@@ -58,7 +58,12 @@ const IndexPage: React.FC = () => {
   return (
     <div className="flex items-center justify-center w-full h-full px-6 py-8 text-white bg-black bg-opacity-90">
       <div className="w-3/4">
-        <h1 className="mb-8 text-4xl font-bold">Quiz Rooms</h1>
+        <div className="mb-8">
+          <h1 className="mb-2 text-4xl font-bold ">Quiz rooms</h1>
+          <p className="text-gray-300 text-md">
+            Explore & play quizzes crafted & reviewed by the community.
+          </p>
+        </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
           {/* Card for creating a quiz */}
           <div className="flex flex-col justify-between w-full p-6 mx-auto text-white bg-black bg-opacity-50 shadow-lg rounded-xl">

@@ -2,9 +2,13 @@ import React from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { FaPlay } from "react-icons/fa";
 import Link from "next/link";
+import useProfile from "../../../hooks/useProfile";
 
 const QuizCard = ({ quiz }) => {
-  return (
+  const creator = useProfile(quiz.creator_id);
+  console.log("creator", creator);
+
+  return quiz && creator ? (
     <div className="flex flex-col w-full p-6 mx-auto text-white bg-black bg-opacity-50 shadow-lg rounded-xl">
       <h2 className="mb-2 text-2xl font-bold text-gray-200">{quiz.title}</h2>
       <h4 className="mb-4 text-sm text-gray-300">{quiz.description}</h4>
@@ -18,11 +22,21 @@ const QuizCard = ({ quiz }) => {
       </div>
       <div className="flex items-center justify-between mt-auto">
         <Link
-          href={`/user/${quiz.creatorId}`}
+          href={`/user/${quiz.creator_id}`}
           className="flex items-center hover:text-blue-500"
         >
-          <BiUserCircle className="mr-2 text-gray-500" />
-          <span className="text-sm text-gray-500">{quiz.creator}</span>
+          {creator?.profile?.avatar_url ? (
+            <img
+              src={creator.profile.avatar_url}
+              alt="User Avatar"
+              className="w-6 h-6 mr-2 rounded-full"
+            />
+          ) : (
+            <BiUserCircle className="mr-2 text-gray-500" />
+          )}
+          <span className="text-sm text-gray-500">
+            {creator?.profile?.name}
+          </span>
         </Link>
         <Link
           href={`/quiz/${quiz.id}`}
@@ -35,6 +49,8 @@ const QuizCard = ({ quiz }) => {
         </Link>
       </div>
     </div>
+  ) : (
+    <div>Loading...</div>
   );
 };
 
