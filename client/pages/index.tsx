@@ -61,23 +61,21 @@ const IndexPage: React.FC = () => {
         <h1 className="mb-8 text-4xl font-bold">Quiz Rooms</h1>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
           {/* Card for creating a quiz */}
-          <div className="p-6 text-center border border-gray-200 rounded">
-            <h2 className="mb-2 text-2xl font-bold">Create your quiz</h2>
-            <p className="mb-4 text-gray-500">
-              Start creating and sharing your own quizzes with the community.
-            </p>
-            <input
-              className="w-full p-2 mb-4 border border-gray-300 rounded"
-              type="text"
-              placeholder="Enter room name"
-              value={roomName}
-              onChange={(e) => setRoomName(e.target.value)}
-            />
+          <div className="flex flex-col justify-between w-full p-6 mx-auto text-white bg-black bg-opacity-50 shadow-lg rounded-xl">
+            <div className="">
+              <h2 className="mb-2 text-2xl font-bold text-gray-200">
+                Create your quiz
+              </h2>
+              <p className="mb-4 text-sm text-gray-300">
+                Start creating and sharing your own AI quizzes with the
+                community.
+              </p>
+            </div>
             <button
-              className="w-full px-4 py-2 text-white bg-blue-500 rounded"
+              className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
               onClick={createRoom}
             >
-              Create Room
+              Create Quiz
             </button>
           </div>
           {/* List of quiz cards */}

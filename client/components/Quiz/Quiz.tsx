@@ -134,7 +134,7 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
   }
 
   return (
-    <div>
+    <div className="w-2/3 bg-black rounded-md h-1/2">
       {questions.length > 0 && (
         <CardWrapper>
           <Question

@@ -127,7 +127,7 @@ export const CreateRoomForm = () => {
       </div>
 
       {/* Tags */}
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <label
           className="block mb-2 text-sm font-bold text-gray-200"
           htmlFor="tags"
@@ -150,7 +150,7 @@ export const CreateRoomForm = () => {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
 
       <div className="flex space-x-5">
         {/* Difficulty */}
@@ -219,7 +219,9 @@ export const CreateRoomForm = () => {
         </label>
         <TextareaAutosize
           id="context"
-          value={context}
+          value={
+            "Create a very hard quiz about the history of programming. Mention people like Alan Turing, Ada Lovelace, and Charles Babbage."
+          }
           onChange={(e) => setContext(e.target.value)}
           placeholder="Create a very hard quiz about the history of programming. Mention people like Alan Turing, Ada Lovelace, and Charles Babbage."
           className="w-full px-3 py-3 text-sm leading-tight text-gray-200 rounded-md shadow appearance-none bg-zinc-900 focus:outline-none focus:shadow-outline"

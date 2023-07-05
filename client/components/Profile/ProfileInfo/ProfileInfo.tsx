@@ -8,11 +8,11 @@ interface Props {
 
 const ProfileInfo: React.FC<Props> = ({ userProfile }) => {
   return userProfile ? (
-    <div className="flex space-x-10 text-white">
+    <div className="flex justify-between w-2/3 space-x-10 text-white">
       <img
         src={userProfile?.avatar_url}
         alt="User Avatar"
-        className="w-32 h-32 mx-auto rounded-full"
+        className="w-32 h-32 rounded-full"
       />
       <div className="flex flex-col items-start text-left">
         <h2 className="mt-4 text-2xl font-bold text-center">

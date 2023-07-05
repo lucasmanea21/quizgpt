@@ -7,6 +7,7 @@ import {
   FaDoorOpen,
   FaTrophy,
 } from "react-icons/fa";
+import { MdSearch } from "react-icons/md";
 import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
 import { useUser } from "@supabase/auth-helpers-react";
@@ -14,8 +15,8 @@ import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 
 const navigation = [
-  { name: "Create Game", href: "/quiz/create", icon: FaPlus },
-  { name: "Join Game", href: "/join", icon: FaPlus },
+  { name: "Explore", href: "/", icon: MdSearch },
+  { name: "Create Quiz", href: "/quiz/create", icon: FaPlus },
   { name: "Leaderboard", href: "/leaderboard", icon: FaTrophy },
 ];
 
@@ -38,7 +39,10 @@ const Navbar = () => {
   }, []);
 
   return (
-    <Disclosure as="nav" className="z-10 bg-black bg-opacity-95">
+    <Disclosure
+      as="nav"
+      className="fixed top-0 left-0 right-0 z-10 bg-black bg-opacity-95"
+    >
       {({ open }) => (
         <>
           <div className="p-3 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">

@@ -1,0 +1,96 @@
+[
+  {
+    "subject": "Mathematics",
+    "topics": [
+      "Algebra",
+      "Geometry",
+      "Calculus",
+      "Probability and Statistics",
+      "Trigonometry"
+    ]
+  },
+  {
+    "subject": "Physics",
+    "topics": [
+      "Mechanics",
+      "Electricity and Magnetism",
+      "Optics",
+      "Thermodynamics",
+      "Quantum Mechanics"
+    ]
+  },
+  {
+    "subject": "Biology",
+    "topics": ["Cell Biology", "Genetics", "Ecology", "Anatomy", "Evolution"]
+  },
+  {
+    "subject": "Chemistry",
+    "topics": [
+      "Organic Chemistry",
+      "Inorganic Chemistry",
+      "Physical Chemistry",
+      "Biochemistry",
+      "Analytical Chemistry"
+    ]
+  },
+  {
+    "subject": "Computer Science",
+    "topics": [
+      "Programming",
+      "Data Structures",
+      "Algorithms",
+      "Web Development",
+      "Artificial Intelligence"
+    ]
+  },
+  {
+    "subject": "History",
+    "topics": [
+      "Ancient Civilizations",
+      "World Wars",
+      "Revolutionary Movements",
+      "Cold War",
+      "Colonialism and Independence"
+    ]
+  },
+  {
+    "subject": "Geography",
+    "topics": [
+      "Physical Geography",
+      "Human Geography",
+      "Climate and Weather",
+      "Population Studies",
+      "Geopolitics"
+    ]
+  },
+  {
+    "subject": "Literature",
+    "topics": [
+      "Classic Literature",
+      "Modern Literature",
+      "Poetry",
+      "Drama",
+      "Literary Analysis"
+    ]
+  },
+  {
+    "subject": "Art",
+    "topics": [
+      "Painting",
+      "Sculpture",
+      "Architecture",
+      "Photography",
+      "Art History"
+    ]
+  },
+  {
+    "subject": "Music",
+    "topics": [
+      "Music Theory",
+      "Musical Instruments",
+      "Composers",
+      "Music History",
+      "World Music"
+    ]
+  }
+]

@@ -9,8 +9,8 @@ const useLeaderboard = () => {
     const fetchLeaderboard = async () => {
       try {
         const { data: users, error } = await supabase
-          .from("profiles")
-          .select("id, full_name, quizzes")
+          .from("user_profiles")
+          .select("id, name, quizzes")
           .order("quizzes", { ascending: false });
 
         if (error) {
