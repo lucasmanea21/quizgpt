@@ -1,6 +1,6 @@
 # Introducing QuizGPT
 
-![QuizGPT](./QuizGPT.jpg)
+![QuizGPT](./QuizGPT.png)
 
 ## What is QuizGPT?
 
