@@ -10,7 +10,7 @@ With the platform, anyone can create AI-generated interactive quizzes on any top
 
 QuizGPT aims to allow anyone to master subjects of their choice, test their knowledge and have fun while learning new things.
 
-> The App is not yet live, but will be in the following days.
+> The App is not yet live; launching in the following days.
 
 ## How does it work?
 
@@ -48,12 +48,12 @@ With the use of Langchain, Embeddings and related tech, you'll soon be able to u
 
 ## Structure
 
-| Codebase                             | Description                     |
-| ------------------------------------ | ------------------------------- |
-| [client](./client)                   | Next.js + TailwindCSS Front-end |
-| [multiplayer](./backend/multiplayer) | Express API                     |
-| [llm](./backend/llm)                 | FastAPI                         |
-| [model](./backend/model)             | Express API                     |
+| Codebase                             | Description       |
+| ------------------------------------ | ----------------- |
+| [client](./client)                   | Next.js front-end |
+| [multiplayer](./backend/multiplayer) | Express API       |
+| [llm](./backend/llm)                 | FastAPI           |
+| [model](./backend/model)             | Express API - WIP |
 
 ## Prompts
 

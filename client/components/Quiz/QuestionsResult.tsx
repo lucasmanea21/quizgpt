@@ -6,8 +6,8 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
   const percentile = userAnswers.filter((item: any) => item.correct).length;
 
   return (
-    <div className="text-white">
-      <div className="flex flex-col items-center justify-center w-full p-6 text-white rounded-lg bg-gradient-to-r from-zinc-700 to-zinc-800">
+    <div className="text-white max-w-[900px]">
+      <div className="flex flex-col items-center justify-center w-full p-6 text-white rounded-lg bg-zinc-800">
         <div className="relative grid w-full overflow-hidden h-30 place-items-center">
           <span className="relative z-10 -top-2 text-9xl font-nabla">
             {Math.round((percentile / questions.length) * 100)}%
@@ -31,7 +31,7 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
       </div>
 
       <div className="flex flex-col mt-5 mb-10 space-y-3">
-        <div className="flex flex-col items-center justify-between w-full p-4 space-y-3 text-white rounded-lg shadow md:space-y-0 md:flex-row bg-gradient-to-r from-green-700 to-blue-700">
+        <div className="flex flex-col items-center justify-between w-full p-4 space-y-3 text-white rounded-lg shadow md:space-y-0 md:flex-row bg-gradient-to-r from-green-900 to-blue-500">
           <div className="flex items-center">
             <FaStar className="mr-2" />
             <p>

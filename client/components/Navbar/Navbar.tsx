@@ -41,7 +41,7 @@ const Navbar = () => {
   return (
     <Disclosure
       as="nav"
-      className="fixed top-0 left-0 right-0 z-10 bg-black bg-opacity-95"
+      className="fixed top-0 left-0 right-0 z-10 bg-zinc-950"
     >
       {({ open }) => (
         <>
@@ -85,7 +85,7 @@ const Navbar = () => {
                         src={user.user_metadata.avatar_url}
                         alt=""
                       />
-                      <p className="ml-3 text-md">
+                      <p className="ml-3 text-lg">
                         {user.user_metadata.full_name}
                       </p>
                     </Link>
@@ -124,7 +124,7 @@ const Navbar = () => {
                 {navigation.map((item, itemIdx) => (
                   <Link
                     href={item.href}
-                    className="block w-full px-3 py-2 text-base font-medium text-center text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+                    className="block w-full px-3 py-2 text-lg font-medium text-center text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                     key={itemIdx}
                   >
                     <item.icon

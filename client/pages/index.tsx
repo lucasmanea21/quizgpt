@@ -5,10 +5,12 @@ import { useRouter } from "next/router";
 import { useUser } from "@supabase/auth-helpers-react";
 import { joinRoom } from "../utils/joinRoom";
 import QuizCard from "../components/Community/Quizzes/Quiz";
+import ComingSoon from "../components/ComingSoon";
 
 const IndexPage: React.FC = () => {
   const [rooms, setRooms] = useState([]);
   const [roomName, setRoomName] = useState("");
+  const [isStarted, setIsStarted] = useState(true);
   const router = useRouter();
   const user = useUser();
 
@@ -55,7 +57,7 @@ const IndexPage: React.FC = () => {
     }
   };
 
-  return (
+  return isStarted ? (
     <div className="flex items-center justify-center w-full h-full px-6 py-8 text-white bg-black bg-opacity-90">
       <div className="w-3/4">
         <div className="mb-8">
@@ -90,6 +92,8 @@ const IndexPage: React.FC = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <ComingSoon />
   );
 };
 

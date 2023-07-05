@@ -105,7 +105,7 @@ export const CreateRoomForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-md p-6 mx-auto text-white bg-black rounded-lg shadow-md bg-opacity-95">
+    <div className="flex flex-col items-center justify-center w-full max-w-md p-6 mx-auto text-white rounded-lg shadow-md bg-zinc-950 bg-opacity-95">
       <div className="w-full mb-7">
         <h2 className="mb-2 text-3xl font-bold ">Create Quiz</h2>
         <p className="text-sm">
