@@ -67,34 +67,38 @@ export const CreateRoomForm = () => {
 
   const handleCreateRoom = async () => {
     try {
-      const { data: roomData } = await supabase
-        .from("rooms")
-        .insert([
-          {
-            subject: selectedSubject,
-            // context: context,
-            owner_id: user.id,
-            is_public: true,
-            tags: selectedTags,
-            // difficulty: selectedDifficulty,
-            questions_number: numQuestions,
-          },
-        ])
-        .select();
-
-      console.log("Room created:", roomData);
-
-      router.push(`/room/${roomData[0].id}`);
-
-      const response = await axios.post(`${API_URL}/quiz/generate`, {
+      const { data: quizData } = await axios.post(`${API_URL}/quiz/generate`, {
         subject: selectedSubject,
         questions: numQuestions,
         context: context,
         difficulty: selectedDifficulty,
-        roomId: roomData[0].id,
       });
 
-      console.log("Quiz generated:", response.data);
+      console.log("Quiz generated:", quizData);
+
+      if (mode === "solo") {
+        // Solo mode: User can play right away
+        // Redirect to the quiz page passing the generated quiz ID
+        router.push(`/quiz/${quizData.quizId}`);
+      } else if (mode === "multiplayer") {
+        // Multiplayer mode: Create a room and link its quiz_id to the generated quiz
+        const { data: roomData } = await supabase
+          .from("rooms")
+          .insert([
+            {
+              subject: selectedSubject,
+              owner_id: user.id,
+              is_public: true,
+              questions: quizData.quizId, // Link the generated quiz ID to the room
+              questions_number: numQuestions,
+            },
+          ])
+          .select();
+
+        console.log("Room created:", roomData);
+
+        router.push(`/room/${roomData[0].id}`);
+      }
     } catch (error) {
       console.error("error", error.message, error);
     }
@@ -107,7 +111,7 @@ export const CreateRoomForm = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-md p-6 mx-auto text-white rounded-lg shadow-md bg-zinc-950 bg-opacity-95">
       <div className="w-full mb-7">
-        <h2 className="mb-2 text-3xl font-bold ">Create Quiz</h2>
+        <h2 className="mb-2 text-3xl font-bold ">Quiz Creator</h2>
         <p className="text-sm">
           Easily generate quizzes on any subject, with the power of AI.
         </p>

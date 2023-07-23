@@ -51,3 +51,16 @@ exports.updateActivity = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.createGuestUser = async () => {
+  const { data, error } = await supabase
+    .from("auth.users")
+    .insert([{ username: `guest_${Date.now()}`, is_guest: true }]);
+
+  if (error) {
+    console.error("Error creating guest user:", error);
+    return null;
+  }
+
+  return data;
+};

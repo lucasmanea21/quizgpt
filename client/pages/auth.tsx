@@ -3,7 +3,7 @@ import { AuthComponent } from "../components/Profile/AuthComponent";
 
 const AuthPage = () => {
   return (
-    <div>
+    <div className="">
       <AuthComponent />
     </div>
   );

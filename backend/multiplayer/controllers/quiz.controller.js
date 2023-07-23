@@ -61,7 +61,7 @@ exports.generateQuiz = async (req, res, next) => {
   });
 };
 
-exports.generateQuizMultiple = async (req, res, next) => {
+exports.  generateQuizMultiple = async (req, res, next) => {
   const { questions, roomId, context } = req.body;
 
   let maxQuestions = 5;

@@ -9,7 +9,7 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
     <div className="text-white max-w-[900px]">
       <div className="flex flex-col items-center justify-center w-full p-6 text-white rounded-lg bg-zinc-800">
         <div className="relative grid w-full overflow-hidden h-30 place-items-center">
-          <span className="relative z-10 -top-2 text-9xl font-nabla">
+          <span className="relative -top-2 text-9xl font-nabla">
             {Math.round((percentile / questions.length) * 100)}%
           </span>
           {/* <img
@@ -18,7 +18,7 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
             alt="result"
           /> */}
         </div>
-        <p className="my-4 font-medium text-center text-md text-text-color">
+        <p className="my-4 font-medium text-center text-md text-text-color ">
           You answered {percentile} out of {questions.length} questions
           correctly!
         </p>

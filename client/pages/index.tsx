@@ -58,9 +58,10 @@ const IndexPage: React.FC = () => {
   };
 
   return isStarted ? (
-    <div className="flex items-center justify-center w-full h-full px-6 py-8 text-white bg-black bg-opacity-90">
-      <div className="w-3/4">
-        <div className="mb-8">
+    <div className="flex items-center justify-center w-full h-full px-6 py-8 text-white bg-black bg-opacity-95">
+      {/* <div className="w-[95%] p-10 px-20 bg-zinc-950"> */}
+      <div className="w-full my-5 md:w-3/4">
+        <div className="mb-10">
           <h1 className="mb-2 text-4xl font-bold ">Quiz rooms</h1>
           <p className="text-gray-300 text-md">
             Explore & play quizzes crafted & reviewed by the community.
@@ -68,7 +69,7 @@ const IndexPage: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
           {/* Card for creating a quiz */}
-          <div className="flex flex-col justify-between w-full p-6 mx-auto text-white bg-black bg-opacity-50 shadow-lg rounded-xl">
+          <div className="flex flex-col justify-between w-full p-6 mx-auto text-white shadow-lg bg-zinc-950 rounded-xl">
             <div className="">
               <h2 className="mb-2 text-2xl font-bold text-gray-200">
                 Create your quiz
@@ -91,6 +92,7 @@ const IndexPage: React.FC = () => {
           ))}
         </div>
       </div>
+      {/* </div> */}
     </div>
   ) : (
     <ComingSoon />

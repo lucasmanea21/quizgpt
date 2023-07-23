@@ -9,7 +9,7 @@ const QuizCard = ({ quiz }) => {
   console.log("creator", creator);
 
   return quiz && creator ? (
-    <div className="flex flex-col w-full p-6 mx-auto text-white bg-black bg-opacity-50 shadow-lg rounded-xl">
+    <div className="flex flex-col w-full p-6 mx-auto text-white shadow-lg bg-zinc-950 rounded-xl">
       <h2 className="mb-2 text-2xl font-bold text-gray-200">{quiz.title}</h2>
       <h4 className="mb-4 text-sm text-gray-300">{quiz.description}</h4>
       <div className="mb-4">

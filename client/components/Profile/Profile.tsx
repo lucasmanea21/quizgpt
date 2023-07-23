@@ -17,26 +17,20 @@ const ProfileComponent: React.FC = () => {
   const { profile, updateProfile } = useProfile(user?.id);
   const [isEditing, setIsEditing] = useState(false);
 
-  const onEdit = () => setIsEditing(true);
-
   const onSave = async (updatedProfile) => {
     await updateProfile(updatedProfile);
     setIsEditing(false);
   };
 
-  const onLogout = async () => {
-    await supabase.auth.signOut();
-  };
-
   if (!userProfile) return null;
 
   return (
-    <div className="flex flex-col items-center justify-center w-3/4 p-4 mt-5 space-y-4 text-white bg-black rounded-md shadow">
+    <div className="flex flex-col items-center justify-center w-3/4 p-4 mt-5 space-y-4 text-white rounded-md shadow bg-zinc-950">
       {isEditing ? (
         <ProfileEditForm userProfile={profile} onSave={onSave} />
       ) : (
         <>
-          <ProfileInfo userProfile={profile} />
+          <ProfileInfo userProfile={profile} setIsEditing={setIsEditing} />
 
           <div className="grid grid-cols-2 gap-4">
             {/* {userProfile?.achievements?.map((achievement) => (
@@ -51,23 +45,9 @@ const ProfileComponent: React.FC = () => {
               <BadgeComponent key={badge.id} badge={badge} />
             ))}
           </div>
-          <div className="flex items-center justify-between w-2/3 space-x-5">
+          {/* <div className="flex items-center justify-between w-2/3 space-x-5">
             <SocialMediaComponent socialMedia={userProfile.socialMedia} />
-            <div>
-              <button
-                className="self-center w-full p-2 mt-4 text-lg font-bold text-black bg-white rounded"
-                onClick={onEdit}
-              >
-                Edit Profile
-              </button>
-              <button
-                onClick={onLogout}
-                className="self-center w-full p-2 mt-2 text-lg font-bold text-black bg-white rounded"
-              >
-                Log Out
-              </button>
-            </div>
-          </div>
+          </div> */}
         </>
       )}
     </div>
