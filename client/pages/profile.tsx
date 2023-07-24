@@ -16,7 +16,7 @@ const ProfilePage = () => {
   console.log("dummyUserProfile", dummyUserProfile);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-black bg-opacity-90">
+    <div className="flex flex-col items-center justify-center h-full bg-black bg-opacity-95">
       <ProfileComponent />
       <QuizHistoryComponent />
     </div>

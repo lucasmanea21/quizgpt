@@ -12,13 +12,13 @@ const QuizHistoryComponent: React.FC = () => {
   };
 
   return (
-    <div className="w-3/4 p-10 mt-10 text-white bg-black rounded-md bg-opacity-90">
+    <div className="w-3/4 p-10 mt-10 text-white rounded-md bg-zinc-950 bg-opacity-90">
       <h2 className="mb-5 text-2xl font-bold">Quiz History</h2>
       <div className="mt-2 space-y-4">
         {userProfile?.quizHistory?.slice(0, visibleCount).map((quiz) => (
           <div
             key={quiz.id}
-            className="flex items-center justify-between p-4 rounded-md shadow bg-gradient-to-r from-zinc-900 to-zinc-800"
+            className="flex items-center justify-between p-4 rounded-md shadow bg-zinc-900"
           >
             <h3 className="text-lg font-bold">{quiz.name}</h3>
             <div>

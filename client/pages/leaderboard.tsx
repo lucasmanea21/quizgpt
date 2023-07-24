@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaTrophy } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import useLeaderboard from "../hooks/useLeaderboard";
 import { Switch } from "@headlessui/react";
 
@@ -18,56 +18,82 @@ const Leaderboard = () => {
     // Switch leaderboard data here...
   };
 
-  if (loading) return <p>Loading...</p>;
+  const handleImageError = (e) => {
+    e.target.src = null;
+    e.target.onError = null;
+    e.target.style.display = "none";
+  };
+
+  // if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full px-6 py-10 mx-auto text-white bg-black bg-opacity-90">
-      <div className="w-2/3">
-        <div className="flex items-center mb-6">
-          <FaTrophy className="w-10 h-10 mr-4 text-yellow-400" />
-          <h1 className="text-2xl font-bold">Leaderboard</h1>
+    <div className="flex justify-center w-full h-screen pt-16 mx-auto text-white bg-black bg-opacity-95">
+      <div className="w-full mx-5 md:w-3/4">
+        <div className="mb-10">
+          <h1 className="mb-2 text-4xl font-bold ">Leaderboard</h1>
+          {/* <p className="text-gray-300 text-md">
+            The most knowledgeable.
+          </p> */}
         </div>
-        <Switch.Group>
-          <Switch.Label className="mr-4">Daily</Switch.Label>
-          <Switch
-            checked={isMonthly}
-            onChange={handleSwitch}
-            className={`${isMonthly ? "bg-blue-400" : "bg-blue-200"}
+        {!loading ? (
+          <>
+            <Switch.Group>
+              <Switch.Label className="mr-4">Daily</Switch.Label>
+              <Switch
+                checked={isMonthly}
+                onChange={handleSwitch}
+                className={`${isMonthly ? "bg-blue-400" : "bg-blue-200"}
                         relative inline-flex items-center h-6 rounded-full w-11`}
-          >
-            <span
-              className={`${isMonthly ? "translate-x-6" : "translate-x-1"}
-                          inline-block w-4 h-4 transform bg-white rounded-full`}
-            />
-          </Switch>
-          <Switch.Label className="ml-4">Monthly</Switch.Label>
-        </Switch.Group>
-        {leaderboard.map((user, index) => (
-          <div
-            key={user.id}
-            className={`flex items-center py-4 space-x-4 relative ${
-              index < 2 ? "mt-8" : index == 2 ? "my-8" : ""
-            } bg-gradient-to-r ${
-              rankColors[index] || "from-zinc-800 to-zinc-700"
-            } rounded-xl`}
-          >
-            <span className="text-4xl font-semibold">{index + 1}</span>
-            <img
-              src={user.avatar_url}
-              alt={user.name}
-              className="w-12 h-12 rounded-full"
-            />
-            <div className="flex flex-col">
-              <a
-                href={user.avatar_url}
-                className="text-lg font-bold hover:text-blue-300"
               >
-                {user.name}
-              </a>
-            </div>
-            <span className="absolute right-5">{user.quizzes} quizzes</span>
-          </div>
-        ))}
+                <span
+                  className={`${isMonthly ? "translate-x-6" : "translate-x-1"}
+                          inline-block w-4 h-4 transform bg-white rounded-full`}
+                />
+              </Switch>
+              <Switch.Label className="ml-4">Monthly</Switch.Label>
+            </Switch.Group>
+            {leaderboard.map((user, index) => {
+              return (
+                <div
+                  key={user.id}
+                  className={`flex items-center py-4 space-x-4 relative ${
+                    index < 2 ? "mt-3" : index == 2 ? "my-3" : ""
+                  } bg-gradient-to-r ${
+                    rankColors[index] || "bg-zinc-950 my-1"
+                  } rounded-xl`}
+                >
+                  <span className="mx-6 text-xl font-semibold">
+                    {index + 1}
+                  </span>
+
+                  {!user.avatar_url ? (
+                    <FaUser className="w-8 h-8 rounded-full" />
+                  ) : (
+                    <img
+                      src={user.avatar_url}
+                      alt={user.name}
+                      className="w-12 h-12 rounded-full"
+                      onError={handleImageError}
+                    />
+                  )}
+                  <div className="flex flex-col">
+                    <a
+                      href={`/profile/${user.id}`}
+                      className="text-lg font-semibold"
+                    >
+                      {user.name}
+                    </a>
+                  </div>
+                  <span className="absolute right-5">
+                    {user.quizzes} quizzes
+                  </span>
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
     </div>
   );

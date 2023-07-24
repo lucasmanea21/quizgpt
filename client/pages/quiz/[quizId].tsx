@@ -27,25 +27,23 @@ const RoomPage: React.FC = () => {
 
   console.log("gameStartTime", gameStartTime);
 
-  if (!quizId) {
-    return (
-      <div className="container mx-auto text-center">
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
-  if (gameOver) {
-    return <QuizOver />;
-  }
-
-  if (!gameStarted) {
-    return <Room roomId={quizId} setGameStarted={setGameStarted} />;
-  }
-
   return (
-    <div className="flex justify-center w-full p-10 m-0 mx-auto bg-black  bg-opacity-90">
-      <Quiz roomId={quizId as string} gameStartTime={gameStartTime} />
+    <div className="flex justify-center w-full min-h-screen p-5 m-0 mx-auto bg-black md:p-10 bg-opacity-95">
+      {!quizId ? (
+        <div className="container mx-auto text-center">
+          <p>Loading...</p>
+        </div>
+      ) : gameOver ? (
+        <QuizOver />
+      ) : !gameStarted ? (
+        <Room roomId={quizId} setGameStarted={setGameStarted} />
+      ) : (
+        <Quiz
+          isMultiplayer={false}
+          roomId={quizId as string}
+          gameStartTime={gameStartTime}
+        />
+      )}
     </div>
   );
 };

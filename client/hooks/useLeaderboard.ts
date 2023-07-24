@@ -10,7 +10,7 @@ const useLeaderboard = () => {
       try {
         const { data: users, error } = await supabase
           .from("user_profiles")
-          .select("id, name, quizzes")
+          .select("*")
           .order("quizzes", { ascending: false });
 
         if (error) {

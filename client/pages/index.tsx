@@ -46,17 +46,6 @@ const IndexPage: React.FC = () => {
     }
   };
 
-  const handleJoinRoom = async (roomId: number) => {
-    try {
-      await joinRoom(roomId, user.id); // assuming user.id is the ID of the current user
-      router.push(`/room/${roomId}`);
-
-      // Handle successful join (e.g. update UI)
-    } catch (error) {
-      // Handle error (e.g. show error message)
-    }
-  };
-
   return isStarted ? (
     <div className="flex items-center justify-center w-full h-full px-6 py-8 text-white bg-black bg-opacity-95">
       {/* <div className="w-[95%] p-10 px-20 bg-zinc-950"> */}

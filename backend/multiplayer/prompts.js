@@ -10,18 +10,18 @@ const subSubjectPrompt = (subject) => {
 };
 
 const quizPrompt = (context) => {
-  return `Vreau sa imi creezi un quiz format din 1 intrebare.
+  return `I want you to create a quiz consisting of 1 question
       
-    Raspunsurile trebuie sa fie cat se poate de factuale si corecte, fara ambiguitati sau neadevaruri, doar 4 optiuni.
+  The answers must be as factual and correct as possible, without ambiguities or falsehoods, just 4 options.
 
-    Returneaza-mi doar quiz-ul in formatul asta, pentru a fi direct compatibil cu Javascript:
-    [{question: "", options: [""], correct: "correct answer string"}]
-
-    Evidentiaza codul cu backticks.
-
-    Aici ai mai mult context, oferit de utilizator: ${context}
-    
-    Returneaza doar array-ul in JSON, fara niciun alt cuvant.`;
+  Return to me only the quiz in this format, to be directly compatible with Javascript:
+  [{question: "", options: [""], correct: "correct answer string"}]
+  
+  Highlight the code with backticks.
+  
+  Here you have more context, provided by the user: ${context}
+  
+  Just return the JSON array, without any other word.`;
 };
 
 module.exports = {

@@ -4,7 +4,12 @@ const {
   uploadQuestion,
   sendAnswer,
 } = require("../db/supabase-admin");
-const { generateCompletion, generateQuiz } = require("../utils/openai");
+const {
+  generateCompletion,
+  generateQuiz,
+  generateQuestions,
+  generateAnswer,
+} = require("../utils/openai");
 
 const supabase = createClient(
   process.env.SUPABASE_URL || "",
@@ -61,8 +66,8 @@ exports.generateQuiz = async (req, res, next) => {
   });
 };
 
-exports.  generateQuizMultiple = async (req, res, next) => {
-  const { questions, roomId, context } = req.body;
+exports.generateQuizMultiple = async (req, res, next) => {
+  const { questions, userId, context } = req.body;
 
   let maxQuestions = 5;
 
@@ -72,60 +77,45 @@ exports.  generateQuizMultiple = async (req, res, next) => {
     });
   }
 
-  const tasks = [];
+  try {
+    // Generate questions first
+    const questionsArr = await generateQuestions(context, questions);
+    let tasks = [];
 
-  for (let i = 1; i <= questions; i++) {
-    tasks.push(generateQuiz(context));
-  }
+    // Generate answers for each question
+    for (let question of questionsArr) {
+      tasks.push(generateAnswer(question.question));
+    }
 
-  let finalCompletion = [];
+    let finalQuiz = await Promise.all(tasks);
 
-  Promise.all(tasks)
-    .then(async (results) => {
-      results.map((result) => {
-        uploadQuestion({ ...result[0] });
-        finalCompletion = finalCompletion.concat(result);
-      });
+    console.log("finalQuiz", finalQuiz);
 
-      console.log("finalCompletion", finalCompletion);
-      console.log("roomId", roomId);
+    // Insert the generated quiz into the database
+    const { data, error } = await supabase
+      .from("quizzes")
+      .insert([{ questions: finalQuiz }])
+      .select();
 
-      // Update the room questions in the database
-      const { error } = await supabase
-        .from("rooms")
-        .update({ questions: finalCompletion })
-        .eq("id", roomId);
-
-      if (error) {
-        console.error(error);
-        return res.status(500).send({
-          message: "Error updating room.",
-          details: error.message,
-        });
-      }
-
-      uploadQuiz(finalCompletion)
-        .then((response) => {
-          return res.status(200).send({
-            message: "Quiz generated!",
-            completion: finalCompletion,
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-          return res.status(500).send({
-            message: "Error uploading quiz.",
-            details: error.message,
-          });
-        });
-    })
-    .catch((error) => {
+    if (error) {
       console.error(error);
       return res.status(500).send({
-        message: "Error generating quiz.",
+        message: "Error inserting quiz.",
         details: error.message,
       });
+    }
+
+    return res.status(200).send({
+      message: "Quiz generated and stored successfully!",
+      data: data[0],
     });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send({
+      message: "Error generating quiz.",
+      details: err.message,
+    });
+  }
 };
 
 exports.getAnswer = async (req, res, next) => {

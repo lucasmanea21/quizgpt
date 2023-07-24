@@ -15,9 +15,9 @@ import ShareRoomSection from "./ShareRoomSection";
 import { CreateRoomForm } from "./CreateRoomForm";
 import InvitedToRoom from "./Invitation";
 
-export const Room = ({ roomId, setGameStarted }) => {
-  const room = useRooms(roomId); // Get the room data
+export const Room = ({ roomId, quizId, setGameStarted, room }) => {
   const users = useRoomUsers(roomId);
+
   const user = useUser();
   const [gameStartTime, setGameStartTime] = useAtom(gameStartTimeAtom);
 
@@ -55,7 +55,7 @@ export const Room = ({ roomId, setGameStarted }) => {
 
   useEffect(() => {
     // TODO: only do this once, using useState
-    joinRoom(roomId, user.id);
+    joinRoom(roomId, user?.id);
     setHasJoined(true); // set hasJoined to true once the room is joined
   }, []);
 
@@ -76,9 +76,9 @@ export const Room = ({ roomId, setGameStarted }) => {
   console.log("room", room);
 
   return (
-    <div className="flex justify-center w-full h-screen bg-zinc-900">
+    <div className="flex justify-center w-full">
       {isLoggedIn ? (
-        <div className="flex flex-col items-center w-full m-5 md:w-2/3 p-6 my-10 text-white rounded-md shadow-lg h-fit bg-zinc-950">
+        <div className="flex flex-col items-center w-full p-8 text-white rounded-md shadow-lg max-w-[700px] h-fit bg-zinc-950">
           <div className={`flex flex-col items-center justify-center`}>
             <h1 className="text-3xl font-bold">
               {room?.name || room?.subject || "Multiplayer Quiz"}
@@ -102,14 +102,14 @@ export const Room = ({ roomId, setGameStarted }) => {
           </div>
 
           {/* <h2 className="text-lg font-medium">Users:</h2> */}
-          <div className="flex space-x-3 mt-5">
+          <div className="flex mt-5 space-x-3">
             {users.map((user, index) => {
               let { profile } = user;
               return (
                 <Link href={`/profile/${profile.id}`} target="_blank">
                   <div
                     key={user.id}
-                    className="flex items-center mb-2  flex-col justify-center"
+                    className="flex flex-col items-center justify-center mb-2"
                   >
                     <img
                       className="w-12 h-12 rounded-full"
@@ -141,7 +141,7 @@ export const Room = ({ roomId, setGameStarted }) => {
               <button
                 className="px-4 py-2 text-white bg-blue-500 rounded"
                 onClick={() => {
-                  joinRoom(roomId, user.id);
+                  joinRoom(roomId, user?.id);
                   setHasJoined(true);
                 }}
               >

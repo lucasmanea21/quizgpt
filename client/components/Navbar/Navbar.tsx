@@ -44,7 +44,7 @@ const Navbar = () => {
     >
       {({ open }) => (
         <>
-          <div className="p-3 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="p-3 px-8 mx-auto max-w-7xl sm:px-8 lg:px-20">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
                 <Link href="/">
@@ -56,18 +56,18 @@ const Navbar = () => {
 
               {!isMobile && (
                 <div className="hidden md:block">
-                  <div className="flex items-baseline ml-10 space-x-4">
+                  <div className="flex items-baseline justify-center ml-10">
                     {navigation.map((item, itemIdx) => (
                       <Link
                         href={item.href}
-                        className="flex items-center px-3 py-2 font-medium text-gray-300 rounded-md text-md hover:bg-gray-700 hover:text-white"
+                        className="flex items-center justify-center px-6 py-2 font-medium text-center text-gray-300 rounded-full text-md hover:bg-zinc-900 hover:text-white"
                         key={itemIdx}
                       >
                         <item.icon
                           className="w-5 h-5 mr-2"
                           aria-hidden="true"
                         />
-                        {item.name}
+                        <p>{item.name}</p>
                       </Link>
                     ))}
                   </div>
@@ -124,7 +124,7 @@ const Navbar = () => {
               {navigation.map((item, itemIdx) => (
                 <Link
                   href={item.href}
-                  className="flex flex-row items-center justify-start w-full px-3 py-2 text-xl font-bold text-center text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+                  className="flex flex-row items-center justify-start w-full px-3 py-2 text-xl font-bold text-center text-gray-300 rounded-md hover:bg-zinc-900 hover:text-white"
                   key={itemIdx}
                 >
                   <item.icon className="w-6 h-6 mr-5" aria-hidden="true" />

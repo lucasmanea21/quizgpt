@@ -8,7 +8,7 @@ export const useQuestions = (roomId: string) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       const { data, error } = await supabase
-        .from("user_quizzes")
+        .from("quizzes")
         .select("questions")
         .eq("id", roomId)
         .single();

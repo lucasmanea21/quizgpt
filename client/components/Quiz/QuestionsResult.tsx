@@ -6,10 +6,10 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
   const percentile = userAnswers.filter((item: any) => item.correct).length;
 
   return (
-    <div className="text-white max-w-[900px]">
-      <div className="flex flex-col items-center justify-center w-full p-6 text-white rounded-lg bg-zinc-800">
-        <div className="relative grid w-full overflow-hidden h-30 place-items-center">
-          <span className="relative -top-2 text-9xl font-nabla">
+    <div className="text-white max-w-[900px] ">
+      <div className="flex flex-col items-center justify-center w-full p-6 text-white rounded-lg bg-zinc-950">
+        <div className="relative grid w-full p-5 overflow-hidden h-30 place-items-center">
+          <span className="relative font-semibold text-9xl">
             {Math.round((percentile / questions.length) * 100)}%
           </span>
           {/* <img
@@ -31,7 +31,8 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
       </div>
 
       <div className="flex flex-col mt-5 mb-10 space-y-3">
-        <div className="flex flex-col items-center justify-between w-full p-4 space-y-3 text-white rounded-lg shadow md:space-y-0 md:flex-row bg-gradient-to-r from-green-900 to-blue-500">
+        {/* <div className="flex flex-col items-center justify-between w-full p-4 space-y-3 text-white rounded-lg shadow md:space-y-0 md:flex-row bg-gradient-to-r from-green-900 to-blue-500"> */}
+        <div className="flex flex-col items-center justify-between w-full p-4 space-y-3 text-white rounded-lg shadow md:space-y-0 md:flex-row bg-zinc-950">
           <div className="flex items-center">
             <FaStar className="mr-2" />
             <p>
@@ -53,13 +54,13 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
         {questions.map((item, key) => {
           console.log();
           return (
-            <div key={key} className={`p-5 rounded-xl bg-zinc-800 text-white `}>
+            <div key={key} className={`p-5 rounded-xl bg-zinc-950 text-white `}>
               <div className="grid items-center grid-cols-2 gap-4">
                 <div>
-                  <p className="mb-2 text-sm tracking-widest text-blue-200 uppercase">
+                  <p className="mb-2 text-sm text-gray-400 uppercase">
                     Question {key + 1}
                   </p>
-                  <h3 className="font-semibold text-gray-200 text-md">
+                  <h3 className="font-semibold text-gray-100 text-md">
                     {item.question}
                   </h3>
                 </div>

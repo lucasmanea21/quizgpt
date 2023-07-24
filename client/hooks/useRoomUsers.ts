@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
+import { toast } from "react-toastify";
 
-const useRoomUsers = (roomId) => {
+const useRoomUsers = (roomId: number) => {
   const [users, setUsers] = useState([]);
 
   const fetchProfileData = async (userId) => {
@@ -48,14 +49,25 @@ const useRoomUsers = (roomId) => {
 
     fetchData();
 
-    // Subscribe to changes
     const myChannel = supabase
       .channel("any")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "users_rooms" },
-        () => {
-          fetchData();
+        async (payload) => {
+          // If a new user has joined the room, fetch the user's profile data and update the state
+          if (payload.event === "INSERT") {
+            const newUser = payload.new;
+            const userProfile = await fetchProfileData(newUser.user_id);
+            setUsers((prevUsers) => [
+              ...prevUsers,
+              { ...newUser, profile: userProfile },
+            ]);
+            toast.info("A new user has joined the room!");
+          } else {
+            // If it's not an INSERT event, refetch all users
+            fetchData();
+          }
         }
       )
       .subscribe();

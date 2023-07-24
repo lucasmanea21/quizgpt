@@ -21,7 +21,7 @@ const InvitedToRoom = ({ quizName, roomCreator, roomId }) => {
   const [showGuestUser, setShowGuestUser] = useState(false);
 
   return (
-    <div className="flex justify-center w-full h-screen bg-zinc-900">
+    <div className="flex justify-center w-full h-screen ">
       <div className="flex flex-col items-center w-full p-10 m-5 my-10 text-white rounded-md shadow-lg md:p-20 md:w-2/3 h-fit bg-zinc-950">
         <>
           <h1 className="text-3xl font-bold text-center">

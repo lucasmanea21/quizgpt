@@ -15,16 +15,19 @@ import QuestionResult from "./QuestionsResult";
 interface QuizProps {
   roomId: string;
   gameStartTime: any;
+  isMultiplayer: boolean;
 }
 
-export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
+export const Quiz: React.FC<QuizProps> = ({ roomId, isMultiplayer }) => {
   const user = useUser();
   const questions = useQuestions(roomId);
+
+  console.log("questions", questions);
 
   const [userAnswer, setUserAnswer] = useAtom(userAnswerAtom);
   const [correctAnswer, setCorrectAnswer] = useAtom(correctAnswerAtom);
 
-  console.log("userAnswer", userAnswer);
+  console.log("roomId", roomId);
 
   const [quizState, setQuizState] = useState("question");
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -34,19 +37,19 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
   const [timePerQuestion, setTimePerQuestion] = useState(30);
   const [userAnswers, setUserAnswers] = useState<any[]>([]);
 
-  useEffect(() => {
-    const fetchRoomData = async () => {
-      let { data: room, error } = await supabase
-        .from("user_quizzes")
-        .select("time_per_question")
-        .eq("id", roomId);
+  // useEffect(() => {
+  //   const fetchRoomData = async () => {
+  //     let { data: room, error } = await supabase
+  //       .from("user_quizzes")
+  //       .select("time_per_question")
+  //       .eq("id", roomId);
 
-      if (error) console.log("Error fetching room data: ", error);
-      else setTimePerQuestion(room[0].time_per_question);
-    };
+  //     if (error) console.log("Error fetching room data: ", error);
+  //     else setTimePerQuestion(room[0].time_per_question);
+  //   };
 
-    fetchRoomData();
-  }, [roomId]);
+  //   fetchRoomData();
+  // }, [roomId]);
 
   useEffect(() => {
     if (showAnswer) {
@@ -79,11 +82,14 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
   // this function would be called when a player submits an answer
   const handleAnswer = async (playerId, isCorrect, answer) => {
     // update the player's results
+    setUserAnswer("");
+
     setResults((prevResults) => {
       const newResults = [...prevResults];
       const playerResult = newResults.find(
         (result) => result.user_id === playerId
       );
+
       if (playerResult) {
         playerResult.correctAnswers += isCorrect ? 1 : 0;
       } else {
@@ -92,13 +98,19 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
       return newResults;
     });
 
+    console.log({
+      user_id: playerId,
+      room_id: roomId,
+      step: currentQuestion + 1,
+      answer: answer,
+    });
     // Save the answer to the database
     const { data, error } = await supabase
       .from("responses")
       .insert([
         {
           user_id: playerId,
-          room_id: roomId,
+          quiz_id: roomId,
           step: currentQuestion + 1,
           answer: answer,
         },
@@ -134,9 +146,9 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
   }
 
   return (
-    <div className="w-2/3 bg-black rounded-md h-1/2">
+    <div className="w-full px-5 py-5 rounded-md md:px-10 bg-zinc-950 h-fit">
       {questions.length > 0 && (
-        <CardWrapper>
+        <div className="w-full">
           <Question
             question={questions[currentQuestion]}
             showAnswer={showAnswer}
@@ -144,15 +156,9 @@ export const Quiz: React.FC<QuizProps> = ({ roomId }) => {
             onAnswer={(answer: string) =>
               handleAnswer(user.id, correctAnswer == userAnswer, answer)
             } // modify the Question component to accept this prop
+            timePerQuestion={timePerQuestion}
           />
-          {/* <Timer
-            time={timePerQuestion * 1000}
-            startTime={Date.now()}
-            onTimeUp={() =>
-              handleAnswer(user.id, correctAnswer == userAnswer, userAnswer)
-            }
-          /> */}
-        </CardWrapper>
+        </div>
       )}
     </div>
   );

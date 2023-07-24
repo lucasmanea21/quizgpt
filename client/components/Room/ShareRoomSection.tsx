@@ -5,7 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function ShareRoomSection({ roomId }) {
-  const link = `${window.location.host}/room/${roomId}`;
+  // const link = `${window?.location?.host}/room/${roomId}`;
+  const link = `http://localhost:3000/room/${roomId}`;
   const [isCopied, setIsCopied] = useState(false);
 
   const copyToClipboard = async () => {
