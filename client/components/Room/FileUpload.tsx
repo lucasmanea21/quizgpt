@@ -40,7 +40,7 @@ const FileUpload = ({ onFileSelect }) => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center h-48 mb-5 text-gray-600 border-4 border-gray-600 border-dashed rounded-lg"
+      className="flex flex-col items-center justify-center h-20 md:h-40 mb-5 text-gray-600 border-4 border-gray-600 border-dashed rounded-lg"
       onDragOver={handleDragOver}
       onDrop={handleFileDrop}
     >

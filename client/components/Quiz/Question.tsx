@@ -24,7 +24,7 @@ export const Question: React.FC<QuestionProps> = ({
   const [answerSelected, setAnswerSelected] = useState(false);
 
   useEffect(() => {
-    setCorrectAnswer(question.correct);
+    setCorrectAnswer(question?.correct);
   }, [question]);
 
   const handleAnswerClick = (answer: string) => {
@@ -39,11 +39,11 @@ export const Question: React.FC<QuestionProps> = ({
     <div className="p-4 text-white rounded-md bg-zinc-950 md:p-8">
       <h5 className="text-lg md:text-xl">Question {questionIndex}</h5>
       <h2 className="mb-3 text-xl font-bold md:text-2xl">
-        {question.question}
+        {question?.question}
       </h2>
       <div className="flex flex-col justify-end">
         <div className="grid grid-cols-1 gap-2 my-5 md:grid-cols-2">
-          {question.options.map((answer: string, index: number) => (
+          {question?.options.map((answer: string, index: number) => (
             <button
               key={index}
               className={`block w-full py-2 md:p-4 rounded ${

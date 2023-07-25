@@ -23,7 +23,7 @@ const QuestionResult = ({ questions, userAnswers }: any) => {
           correctly!
         </p>
         <Link
-          href="/"
+          href="/quiz/create"
           className="block w-full px-2 py-2 mt-2 text-lg font-semibold text-center text-white bg-blue-500 border-none rounded-lg outline-none cursor-pointer md:w-1/3 bg-opacity-70 text-text-color"
         >
           Start a new quiz!

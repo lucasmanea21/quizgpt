@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { useUser } from "@supabase/auth-helpers-react";
-import { API_URL } from "../../utils/config";
+import { API_URL, LLM_SERVER_URL } from "../../utils/config";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useTags } from "../../hooks/useTags";
 import TextareaAutosize from "react-textarea-autosize";
 import FileUpload from "./FileUpload";
 import { FaUser, FaUsers } from "react-icons/fa";
+import { IoMdRefresh } from "react-icons/io";
+import { contexts } from "../../utils/sample-data";
 
 export const CreateRoomForm = () => {
   const user = useUser();
@@ -43,41 +45,66 @@ export const CreateRoomForm = () => {
     fetchSubjects();
   }, []);
 
-  console.log("context", context);
+  const uploadFile = async (file: any) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post(`${LLM_SERVER_URL}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error while uploading file", error);
+      throw error;
+    }
+  };
+
   const handleCreateRoom = async () => {
     setIsLoading(true);
     try {
-      const { data: quizData } = await axios.post(`${API_URL}/quiz/generate`, {
-        subject: selectedSubject,
-        questions: numQuestions,
-        context: context,
-        difficulty: selectedDifficulty,
-      });
+      if (!file) {
+        const { data: quizData } = await axios.post(
+          `${API_URL}/quiz/generate`,
+          {
+            subject: selectedSubject,
+            questions: numQuestions,
+            context: context,
+            userId: user?.id,
+            difficulty: selectedDifficulty,
+          }
+        );
 
-      console.log("Quiz generated:", quizData);
+        console.log("Quiz generated:", quizData);
 
-      if (mode === "solo") {
-        // Solo mode: User can play right away
-        // Redirect to the quiz page passing the generated quiz ID
-        router.push(`/quiz/${quizData.data.id}`);
-      } else if (mode === "multiplayer") {
-        // Multiplayer mode: Create a room and link its quiz_id to the generated quiz
-        const { data: roomData } = await supabase
-          .from("rooms")
-          .insert([
-            {
-              subject: selectedSubject,
-              owner_id: user.id,
-              is_public: true,
-              questions: quizData.data.id, // Link the generated quiz ID to the room
-              questions_number: numQuestions,
-            },
-          ])
-          .select();
+        if (mode === "solo") {
+          // Solo mode: User can play right away
+          // Redirect to the quiz page passing the generated quiz ID
+          router.push(`/quiz/${quizData.data.id}`);
+        } else if (mode === "multiplayer") {
+          // Multiplayer mode: Create a room and link its quiz_id to the generated quiz
+          const { data: roomData } = await supabase
+            .from("rooms")
+            .insert([
+              {
+                subject: selectedSubject,
+                owner_id: user.id,
+                is_public: true,
+                quiz: quizData.data.id, // Link the generated quiz ID to the room
+                questions_number: numQuestions,
+              },
+            ])
+            .select();
 
-        console.log("Room created:", roomData);
-
+          console.log("Room created:", roomData);
+        }
         router.push(`/room/${roomData[0].id}`);
+      } else {
+        const res = await uploadFile(file);
+
+        console.log("Res", res);
       }
     } catch (error) {
       console.error("error", error.message, error);
@@ -94,9 +121,9 @@ export const CreateRoomForm = () => {
     <div className="flex flex-col items-center justify-center w-full px-2 py-5 text-white rounded-lg shadow-md sm:max-w-md sm:p-6 bg-zinc-950 ">
       <div className="w-full px-4 mb-7">
         <h2 className="mb-2 text-3xl font-bold ">Quiz Creator</h2>
-        <p className="text-base sm:text-sm">
+        {/* <p className="text-base sm:text-sm">
           Easily generate quizzes on any subject, with the power of AI.
-        </p>
+        </p> */}
       </div>
 
       {/* Mode Selector */}
@@ -127,7 +154,7 @@ export const CreateRoomForm = () => {
 
       <div className="w-full px-2 mt-2">
         {/* Subjects */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label
             className="block mb-2 text-lg font-bold text-gray-200 sm:text-md"
             htmlFor="subject"
@@ -146,7 +173,7 @@ export const CreateRoomForm = () => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
         <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
           {/* Difficulty */}
@@ -189,7 +216,7 @@ export const CreateRoomForm = () => {
         </div>
 
         {/* Context */}
-        <div className="my-4">
+        <div className="relative my-4">
           <label
             className="block mb-2 text-lg font-bold text-gray-200 sm:text-md"
             htmlFor="context"
@@ -203,8 +230,19 @@ export const CreateRoomForm = () => {
             placeholder="Create a very hard quiz about the history of programming. Mention people like Alan Turing, Ada Lovelace, and Charles Babbage."
             className="w-full px-3 py-3 text-base leading-tight text-gray-200 rounded-md shadow appearance-none sm:text-sm bg-zinc-900 focus:outline-none focus:shadow-outline"
           />
+          <button
+            className="absolute right-0 top-0 flex items-center justify-center text-md bg-gray-600 rounded-md px-1 text-gray-200 hover:text-gray-300"
+            onClick={() => {
+              const randomContext =
+                contexts[Math.floor(Math.random() * contexts.length)];
+              setContext(randomContext);
+            }}
+            title="Get random context"
+          >
+            <IoMdRefresh className="mr-2" />
+            <p>Random</p>
+          </button>
         </div>
-
         {/* File Upload */}
         <FileUpload onFileSelect={setFile} />
 

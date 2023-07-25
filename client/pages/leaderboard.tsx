@@ -37,7 +37,7 @@ const Leaderboard = () => {
         </div>
         {!loading ? (
           <>
-            <Switch.Group>
+            {/* <Switch.Group>
               <Switch.Label className="mr-4">Daily</Switch.Label>
               <Switch
                 checked={isMonthly}
@@ -51,7 +51,7 @@ const Leaderboard = () => {
                 />
               </Switch>
               <Switch.Label className="ml-4">Monthly</Switch.Label>
-            </Switch.Group>
+            </Switch.Group> */}
             {leaderboard.map((user, index) => {
               return (
                 <div

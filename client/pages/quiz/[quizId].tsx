@@ -36,11 +36,16 @@ const RoomPage: React.FC = () => {
       ) : gameOver ? (
         <QuizOver />
       ) : !gameStarted ? (
-        <Room roomId={quizId} setGameStarted={setGameStarted} />
+        <Room
+          roomId={quizId}
+          setGameStarted={setGameStarted}
+          isMultiplayer={false}
+        />
       ) : (
         <Quiz
           isMultiplayer={false}
           roomId={quizId as string}
+          quizId={quizId as string}
           gameStartTime={gameStartTime}
         />
       )}

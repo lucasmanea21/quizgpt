@@ -21,6 +21,11 @@ const useRoomUsers = (roomId: number) => {
   };
 
   useEffect(() => {
+    if (!roomId) {
+      setUsers([]);
+      return;
+    }
+
     const fetchData = async () => {
       const { data, error } = await supabase
         .from("users_rooms")
@@ -33,6 +38,7 @@ const useRoomUsers = (roomId: number) => {
         // Extract user IDs
         const userIds = data.map((user) => user.user_id);
 
+        console.log("userIds", userIds);
         // Use Promise.all to fetch profile data for all users
         const profiles = await Promise.all(
           userIds.map(async (userId) => await fetchProfileData(userId))
@@ -55,6 +61,7 @@ const useRoomUsers = (roomId: number) => {
         "postgres_changes",
         { event: "*", schema: "public", table: "users_rooms" },
         async (payload) => {
+          console.log("payload", payload);
           // If a new user has joined the room, fetch the user's profile data and update the state
           if (payload.event === "INSERT") {
             const newUser = payload.new;

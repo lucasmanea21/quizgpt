@@ -19,6 +19,10 @@ const RoomPage: React.FC = () => {
   const [gameOver, setGameOver] = useState(false);
   const [gameStartTime, setGameStartTime] = useState(0);
 
+  useEffect(() => {
+    setGameStarted(room.is_started);
+  }, [room]);
+
   const handleJoinRoom = async (roomId: number) => {
     try {
       await joinRoom(roomId, user?.id); // assuming user.id is the ID of the current user
@@ -42,8 +46,10 @@ const RoomPage: React.FC = () => {
     );
   }
 
+  console.log("gameStarted", gameStarted);
+
   return (
-    <div className="flex justify-center w-full h-screen p-10 m-0 mx-auto bg-black h-min-screen bg-opacity-95">
+    <div className="flex justify-center w-full  p-10 m-0 mx-auto bg-black min-h-screen bg-opacity-95">
       {gameOver ? (
         <div className="flex flex-col items-center justify-center space-y-4">
           <h2 className="text-2xl">The quiz is over</h2>
@@ -54,14 +60,17 @@ const RoomPage: React.FC = () => {
       ) : !gameStarted ? (
         <Room
           quizId={room?.quiz}
-          roomId={room?.id}
+          initialRoomId={room?.id}
           room={room}
           setGameStarted={setGameStarted}
+          isMultiplayer={true}
         />
       ) : (
         <Quiz
           isMultiplayer={true}
-          roomId={room?.quiz}
+          roomId={roomId as string}
+          quizId={room?.quiz}
+          room={room}
           gameStartTime={gameStartTime}
         />
       )}

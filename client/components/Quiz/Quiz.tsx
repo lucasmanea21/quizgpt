@@ -14,23 +14,28 @@ import QuestionResult from "./QuestionsResult";
 
 interface QuizProps {
   roomId: string;
+  quizId: string;
   gameStartTime: any;
   isMultiplayer: boolean;
+  room: any;
 }
 
-export const Quiz: React.FC<QuizProps> = ({ roomId, isMultiplayer }) => {
+export const Quiz: React.FC<QuizProps> = ({
+  roomId,
+  isMultiplayer,
+  quizId,
+  room,
+}) => {
   const user = useUser();
-  const questions = useQuestions(roomId);
-
-  console.log("questions", questions);
+  const questions = useQuestions(quizId);
 
   const [userAnswer, setUserAnswer] = useAtom(userAnswerAtom);
   const [correctAnswer, setCorrectAnswer] = useAtom(correctAnswerAtom);
 
-  console.log("roomId", roomId);
-
   const [quizState, setQuizState] = useState("question");
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(
+    isMultiplayer ? room?.step - 1 ?? 0 : 0
+  );
   const [showAnswer, setShowAnswer] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   const [results, setResults] = useState([]);
@@ -51,20 +56,20 @@ export const Quiz: React.FC<QuizProps> = ({ roomId, isMultiplayer }) => {
   //   fetchRoomData();
   // }, [roomId]);
 
-  useEffect(() => {
-    if (showAnswer) {
-      const timer = setTimeout(() => {
-        setShowAnswer(false);
-        if (currentQuestion + 1 < questions.length) {
-          setCurrentQuestion(currentQuestion + 1);
-          setTimePerQuestion(timePerQuestion);
-        } else {
-          handleGameEnded();
-        }
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showAnswer]);
+  // useEffect(() => {
+  //   if (showAnswer) {
+  //     const timer = setTimeout(() => {
+  //       setShowAnswer(false);
+  //       if (currentQuestion + 1 < questions.length) {
+  //         setCurrentQuestion(currentQuestion + 1);
+  //         setTimePerQuestion(timePerQuestion);
+  //       } else {
+  //         handleGameEnded();
+  //       }
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [showAnswer]);
 
   const handleGameEnded = async () => {
     const { data, error } = await supabase
@@ -110,12 +115,15 @@ export const Quiz: React.FC<QuizProps> = ({ roomId, isMultiplayer }) => {
       .insert([
         {
           user_id: playerId,
-          quiz_id: roomId,
+          quiz_id: quizId,
+          room_id: roomId,
           step: currentQuestion + 1,
           answer: answer,
         },
       ])
       .select();
+
+    isMultiplayer && setShowAnswer(true);
 
     setUserAnswers((prevAnswers) => [
       ...prevAnswers,
@@ -126,7 +134,7 @@ export const Quiz: React.FC<QuizProps> = ({ roomId, isMultiplayer }) => {
     ]);
 
     if (currentQuestion + 1 < questions.length) {
-      setCurrentQuestion((prevValue) => prevValue + 1);
+      !isMultiplayer && setCurrentQuestion((prevValue) => prevValue + 1);
     } else {
       handleGameEnded();
     }
@@ -136,29 +144,48 @@ export const Quiz: React.FC<QuizProps> = ({ roomId, isMultiplayer }) => {
     }
   };
 
-  console.log("questions", questions);
-  if (gameEnded) {
-    return <QuestionResult questions={questions} userAnswers={userAnswers} />;
-  }
+  const handleNextQuestion = async () => {
+    const { data, error } = await supabase
+      .from("rooms")
+      .update({ step: currentQuestion + 1 })
+      .eq("id", roomId);
 
-  if (showAnswer) {
-    return <Answer questionStep={currentQuestion + 1} roomId={roomId} />;
-  }
+    if (error) {
+      console.error("Error ending game:", error);
+    }
+
+    setCurrentQuestion((prevValue) => prevValue + 1);
+  };
+
+  console.log("questions", questions);
 
   return (
-    <div className="w-full px-5 py-5 rounded-md md:px-10 bg-zinc-950 h-fit">
-      {questions.length > 0 && (
+    <div className="w-full px-5 py-5 rounded-md md:px-10 h-fit max-w-[850px]">
+      {showAnswer && isMultiplayer ? (
+        <Answer
+          question={questions[currentQuestion]}
+          questionIndex={currentQuestion + 1}
+          roomId={roomId}
+          quizId={quizId}
+          handleNextQuestion={handleNextQuestion}
+          setShowAnswer={setShowAnswer}
+        />
+      ) : gameEnded ? (
+        <QuestionResult questions={questions} userAnswers={userAnswers} />
+      ) : questions.length > 0 ? (
         <div className="w-full">
           <Question
             question={questions[currentQuestion]}
             showAnswer={showAnswer}
             questionIndex={currentQuestion + 1}
-            onAnswer={(answer: string) =>
-              handleAnswer(user.id, correctAnswer == userAnswer, answer)
-            } // modify the Question component to accept this prop
+            onAnswer={(answer: string) => {
+              handleAnswer(user?.id, correctAnswer == userAnswer, answer);
+            }} // modify the Question component to accept this prop
             timePerQuestion={timePerQuestion}
           />
         </div>
+      ) : (
+        <div>loading...</div>
       )}
     </div>
   );

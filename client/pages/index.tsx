@@ -51,7 +51,7 @@ const IndexPage: React.FC = () => {
       {/* <div className="w-[95%] p-10 px-20 bg-zinc-950"> */}
       <div className="w-full my-5 md:w-3/4">
         <div className="mb-10">
-          <h1 className="mb-2 text-4xl font-bold ">Quiz rooms</h1>
+          <h1 className="mb-2 text-4xl font-bold ">Quiz Explorer</h1>
           <p className="text-gray-300 text-md">
             Explore & play quizzes crafted & reviewed by the community.
           </p>
